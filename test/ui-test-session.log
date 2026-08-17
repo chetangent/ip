@@ -1,0 +1,24 @@
+## Smoke test placeholder
+Aim: Replace this placeholder with a real test case before running the test-ui skill.
+
+### Console Input
+```text
+bye
+```
+
+### Console Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
