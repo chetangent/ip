@@ -46,6 +46,7 @@ public class Rudra {
             }
 
             else if ("list".equals(command)) {
+                System.out.println("Here are the tasks in your list:");
                 for (int i=1; i < taskCount + 1; i++) {
                     System.out.println(i + "." + tasks[i - 1]);
                 }
@@ -107,9 +108,65 @@ public class Rudra {
                 continue;
             }
 
-            System.out.println("added: " + command);
-            tasks[taskCount] = new Task(command);
-            taskCount++;
+            else if ("todo".equals(parts[0])) {
+                if (parts.length <= 1 || parts[1].isBlank()) {
+                    System.out.println("Oops, the description of a todo cannot be empty.");
+                    System.out.println(LINE);
+                    continue;
+                }
+                tasks[taskCount] = new ToDo(parts[1]);
+                System.out.println("Got it. I've added this task:");
+                System.out.println(tasks[taskCount]);
+                taskCount++;
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println(LINE);
+                continue;
+            }
+
+            else if ("deadline".equals(parts[0])) {
+                if (parts.length <= 1 || parts[1].isBlank()) {
+                    System.out.println("Oops, the description of a deadline cannot be empty.");
+                    System.out.println(LINE);
+                    continue;
+                }
+                String[] reparts = parts[1].split(" /by ", 2);
+                if (reparts.length < 2 || reparts[0].isBlank() || reparts[1].isBlank()) {
+                    System.out.println("Oops, use the format: deadline DESCRIPTION /by WHEN");
+                    System.out.println(LINE);
+                    continue;
+                }
+                tasks[taskCount] = new Deadline(reparts[0], reparts[1]);
+                System.out.println("Got it. I've added this task:");
+                System.out.println(tasks[taskCount]);
+                taskCount++;
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println(LINE);
+                continue;
+            }
+
+            else if ("event".equals(parts[0])) {
+                if (parts.length <= 1 || parts[1].isBlank()) {
+                    System.out.println("Oops, the description of an event cannot be empty.");
+                    System.out.println(LINE);
+                    continue;
+                }
+                String[] reparts = parts[1].split(" /from | /to ", 3);
+                if (reparts.length < 3 || reparts[0].isBlank()
+                        || reparts[1].isBlank() || reparts[2].isBlank()) {
+                    System.out.println("Oops, use the format: event DESCRIPTION /from START /to END");
+                    System.out.println(LINE);
+                    continue;
+                }
+                tasks[taskCount] = new Event(reparts[0], reparts[1], reparts[2]);
+                System.out.println("Got it. I've added this task:");
+                System.out.println(tasks[taskCount]);
+                taskCount++;
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println(LINE);
+                continue;
+            }
+
+            System.out.println("Oops, I don't recognize that command.");
             System.out.println(LINE);
         }
     }
