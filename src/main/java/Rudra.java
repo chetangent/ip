@@ -24,10 +24,12 @@ public class Rudra {
         System.out.println("What can I do for you?");
         System.out.println(LINE);
 
-        /* Used Codex to generate this logic block as I had the main
+        /* Used Codex to generate this base logic block for echo as I had the main
         idea but forgot how to collect and use user input in Java.
          */
         Scanner scanner = new Scanner(System.in);
+        String[] tasks = new String[100];
+        int taskCount = 0;
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
             if ("bye".equals(command)) {
@@ -36,7 +38,17 @@ public class Rudra {
                 break;
             }
 
-            System.out.println(command);
+            else if ("list".equals(command)) {
+                for (int i=1; i < taskCount + 1; i++) {
+                    System.out.println(i + ". " + tasks[i-1]);
+                }
+                System.out.println(LINE);
+                continue;
+            }
+
+            System.out.println("added: " + command);
+            tasks[taskCount] = command;
+            taskCount++;
             System.out.println(LINE);
         }
     }
