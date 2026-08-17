@@ -33,6 +33,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 After each code update:
 
 * Update `test/ui-test-plan.md` if the change affects console behavior or otherwise changes the relevant UI test coverage.
+* Prefer multiple realistic test cases over placeholders, including edge cases and incorrect inputs. Interleave positive and negative cases when practical so errors can be checked for unintended state changes.
 * Invoke the `test-ui` skill to run the UI test plan and review the resulting transcript or failure report.
 
 ## Git
