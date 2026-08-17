@@ -33,8 +33,7 @@ public class Rudra {
         * as well as the error catching
         * */
         Scanner scanner = new Scanner(System.in);
-        String[] tasks = new String[100];
-        boolean[] done = new boolean[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         while (scanner.hasNextLine()) {
@@ -48,11 +47,7 @@ public class Rudra {
 
             else if ("list".equals(command)) {
                 for (int i=1; i < taskCount + 1; i++) {
-                    String box = "[ ]";
-                    if (done[i - 1]) {
-                        box = "[X]";
-                    }
-                    System.out.println(i + "." + box + tasks[i-1]);
+                    System.out.println(i + "." + tasks[i - 1]);
                 }
                 System.out.println(LINE);
                 continue;
@@ -63,9 +58,9 @@ public class Rudra {
                     try {
                         int num = Integer.parseInt(parts[1]);
                         if (num <= taskCount && num >= 1) {
-                            done[num - 1] = true;
+                            tasks[num - 1].markAsDone();
                             System.out.println("Nice! I've marked this task as done:");
-                            System.out.println("[X] " + tasks[num - 1]);
+                            System.out.println(tasks[num - 1]);
                             System.out.println(LINE);
                         } else {
                             System.out.println("Oops, that task doesn't exist. Please choose another number.");
@@ -90,9 +85,9 @@ public class Rudra {
                     try {
                         int num = Integer.parseInt(parts[1]);
                         if (num <= taskCount && num >= 1) {
-                            done[num - 1] = false;
+                            tasks[num - 1].markAsNotDone();
                             System.out.println("OK, I've marked this task as not done yet:");
-                            System.out.println("[ ] " + tasks[num - 1]);
+                            System.out.println(tasks[num - 1]);
                             System.out.println(LINE);
                         } else {
                             System.out.println("Oops, that task doesn't exist. Please choose another number.");
@@ -113,8 +108,7 @@ public class Rudra {
             }
 
             System.out.println("added: " + command);
-            tasks[taskCount] = command;
-            done[taskCount] = false;
+            tasks[taskCount] = new Task(command);
             taskCount++;
             System.out.println(LINE);
         }
