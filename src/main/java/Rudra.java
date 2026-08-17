@@ -27,11 +27,19 @@ public class Rudra {
         /* Used Codex to generate this base logic block for echo as I had the main
         idea but forgot how to collect and use user input in Java.
          */
+        /*
+        * Used Codex to split the input for done as unsure on how
+        * to implement that as well as converting String to int
+        * as well as the error catching
+        * */
         Scanner scanner = new Scanner(System.in);
         String[] tasks = new String[100];
+        boolean[] done = new boolean[100];
         int taskCount = 0;
+
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
+            String[] parts = command.split(" ", 2);
             if ("bye".equals(command)) {
                 System.out.println("Bye. Hope to see you again soon!");
                 System.out.println(LINE);
@@ -40,14 +48,73 @@ public class Rudra {
 
             else if ("list".equals(command)) {
                 for (int i=1; i < taskCount + 1; i++) {
-                    System.out.println(i + ". " + tasks[i-1]);
+                    String box = "[ ]";
+                    if (done[i - 1]) {
+                        box = "[X]";
+                    }
+                    System.out.println(i + "." + box + tasks[i-1]);
                 }
                 System.out.println(LINE);
                 continue;
             }
 
+            else if ("mark".equals(parts[0])) {
+                if (parts.length > 1) {
+                    try {
+                        int num = Integer.parseInt(parts[1]);
+                        if (num <= taskCount && num >= 1) {
+                            done[num - 1] = true;
+                            System.out.println("Nice! I've marked this task as done:");
+                            System.out.println("[X] " + tasks[num - 1]);
+                            System.out.println(LINE);
+                        } else {
+                            System.out.println("Oops, that task doesn't exist. Please choose another number.");
+                            System.out.println(LINE);
+                            continue;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid task number.");
+                        System.out.println(LINE);
+                        continue;
+                    }
+                } else {
+                    System.out.println("Oops, please enter a number as well.");
+                    System.out.println(LINE);
+                    continue;
+                }
+                continue;
+            }
+
+            else if ("unmark".equals(parts[0])) {
+                if (parts.length > 1) {
+                    try {
+                        int num = Integer.parseInt(parts[1]);
+                        if (num <= taskCount && num >= 1) {
+                            done[num - 1] = false;
+                            System.out.println("OK, I've marked this task as not done yet:");
+                            System.out.println("[ ] " + tasks[num - 1]);
+                            System.out.println(LINE);
+                        } else {
+                            System.out.println("Oops, that task doesn't exist. Please choose another number.");
+                            System.out.println(LINE);
+                            continue;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid task number.");
+                        System.out.println(LINE);
+                        continue;
+                    }
+                } else {
+                    System.out.println("Oops, please enter a number as well.");
+                    System.out.println(LINE);
+                    continue;
+                }
+                continue;
+            }
+
             System.out.println("added: " + command);
             tasks[taskCount] = command;
+            done[taskCount] = false;
             taskCount++;
             System.out.println(LINE);
         }
