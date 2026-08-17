@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Not much, Got a B in CS2030 and mostly learning python to do Neetcode 150 questions
+* IDE and level of expertise: Also quite low, mainly used it in previous mods as well as Orbital project, ManaBhasha
 
 # Guidance for interacting with users
 
