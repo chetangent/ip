@@ -38,136 +38,111 @@ public class Rudra {
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
-            String[] parts = command.split(" ", 2);
             if ("bye".equals(command)) {
                 System.out.println("Bye. Hope to see you again soon!");
                 System.out.println(LINE);
                 break;
             }
 
-            else if ("list".equals(command)) {
-                System.out.println("Here are the tasks in your list:");
-                for (int i=1; i < taskCount + 1; i++) {
-                    System.out.println(i + "." + tasks[i - 1]);
-                }
+            try {
+                taskCount = handleCommand(command, tasks, taskCount);
+            } catch (RudraException e) {
+                System.out.println(e.getMessage());
                 System.out.println(LINE);
-                continue;
             }
-
-            else if ("mark".equals(parts[0])) {
-                if (parts.length > 1) {
-                    try {
-                        int num = Integer.parseInt(parts[1]);
-                        if (num <= taskCount && num >= 1) {
-                            tasks[num - 1].markAsDone();
-                            System.out.println("Nice! I've marked this task as done:");
-                            System.out.println(tasks[num - 1]);
-                            System.out.println(LINE);
-                        } else {
-                            System.out.println("Oops, that task doesn't exist. Please choose another number.");
-                            System.out.println(LINE);
-                            continue;
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid task number.");
-                        System.out.println(LINE);
-                        continue;
-                    }
-                } else {
-                    System.out.println("Oops, please enter a number as well.");
-                    System.out.println(LINE);
-                    continue;
-                }
-                continue;
-            }
-
-            else if ("unmark".equals(parts[0])) {
-                if (parts.length > 1) {
-                    try {
-                        int num = Integer.parseInt(parts[1]);
-                        if (num <= taskCount && num >= 1) {
-                            tasks[num - 1].markAsNotDone();
-                            System.out.println("OK, I've marked this task as not done yet:");
-                            System.out.println(tasks[num - 1]);
-                            System.out.println(LINE);
-                        } else {
-                            System.out.println("Oops, that task doesn't exist. Please choose another number.");
-                            System.out.println(LINE);
-                            continue;
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid task number.");
-                        System.out.println(LINE);
-                        continue;
-                    }
-                } else {
-                    System.out.println("Oops, please enter a number as well.");
-                    System.out.println(LINE);
-                    continue;
-                }
-                continue;
-            }
-
-            else if ("todo".equals(parts[0])) {
-                if (parts.length <= 1 || parts[1].isBlank()) {
-                    System.out.println("Oops, the description of a todo cannot be empty.");
-                    System.out.println(LINE);
-                    continue;
-                }
-                tasks[taskCount] = new ToDo(parts[1]);
-                System.out.println("Got it. I've added this task:");
-                System.out.println(tasks[taskCount]);
-                taskCount++;
-                System.out.println("Now you have " + taskCount + " tasks in the list.");
-                System.out.println(LINE);
-                continue;
-            }
-
-            else if ("deadline".equals(parts[0])) {
-                if (parts.length <= 1 || parts[1].isBlank()) {
-                    System.out.println("Oops, the description of a deadline cannot be empty.");
-                    System.out.println(LINE);
-                    continue;
-                }
-                String[] reparts = parts[1].split(" /by ", 2);
-                if (reparts.length < 2 || reparts[0].isBlank() || reparts[1].isBlank()) {
-                    System.out.println("Oops, use the format: deadline DESCRIPTION /by WHEN");
-                    System.out.println(LINE);
-                    continue;
-                }
-                tasks[taskCount] = new Deadline(reparts[0], reparts[1]);
-                System.out.println("Got it. I've added this task:");
-                System.out.println(tasks[taskCount]);
-                taskCount++;
-                System.out.println("Now you have " + taskCount + " tasks in the list.");
-                System.out.println(LINE);
-                continue;
-            }
-
-            else if ("event".equals(parts[0])) {
-                if (parts.length <= 1 || parts[1].isBlank()) {
-                    System.out.println("Oops, the description of an event cannot be empty.");
-                    System.out.println(LINE);
-                    continue;
-                }
-                String[] reparts = parts[1].split(" /from | /to ", 3);
-                if (reparts.length < 3 || reparts[0].isBlank()
-                        || reparts[1].isBlank() || reparts[2].isBlank()) {
-                    System.out.println("Oops, use the format: event DESCRIPTION /from START /to END");
-                    System.out.println(LINE);
-                    continue;
-                }
-                tasks[taskCount] = new Event(reparts[0], reparts[1], reparts[2]);
-                System.out.println("Got it. I've added this task:");
-                System.out.println(tasks[taskCount]);
-                taskCount++;
-                System.out.println("Now you have " + taskCount + " tasks in the list.");
-                System.out.println(LINE);
-                continue;
-            }
-
-            System.out.println("Oops, I don't recognize that command.");
-            System.out.println(LINE);
         }
+    }
+
+    private static int handleCommand(String command, Task[] tasks, int taskCount) throws RudraException {
+        String[] parts = command.split(" ", 2);
+
+        if ("list".equals(command)) {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 1; i < taskCount + 1; i++) {
+                System.out.println(i + "." + tasks[i - 1]);
+            }
+            System.out.println(LINE);
+            return taskCount;
+        }
+
+        if ("mark".equals(parts[0])) {
+            int taskIndex = parseTaskNumber(parts, taskCount);
+            tasks[taskIndex].markAsDone();
+            System.out.println("Nice! I've marked this task as done:");
+            System.out.println(tasks[taskIndex]);
+            System.out.println(LINE);
+            return taskCount;
+        }
+
+        if ("unmark".equals(parts[0])) {
+            int taskIndex = parseTaskNumber(parts, taskCount);
+            tasks[taskIndex].markAsNotDone();
+            System.out.println("OK, I've marked this task as not done yet:");
+            System.out.println(tasks[taskIndex]);
+            System.out.println(LINE);
+            return taskCount;
+        }
+
+        if ("todo".equals(parts[0])) {
+            String description = requireDescription(parts, "todo");
+            tasks[taskCount] = new ToDo(description);
+            printTaskAdded(tasks[taskCount], taskCount + 1);
+            return taskCount + 1;
+        }
+
+        if ("deadline".equals(parts[0])) {
+            String descriptionAndBy = requireDescription(parts, "deadline");
+            String[] deadlineParts = descriptionAndBy.split(" /by ", 2);
+            if (deadlineParts.length < 2 || deadlineParts[0].isBlank() || deadlineParts[1].isBlank()) {
+                throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
+            }
+            tasks[taskCount] = new Deadline(deadlineParts[0], deadlineParts[1]);
+            printTaskAdded(tasks[taskCount], taskCount + 1);
+            return taskCount + 1;
+        }
+
+        if ("event".equals(parts[0])) {
+            String descriptionAndTime = requireDescription(parts, "event");
+            String[] eventParts = descriptionAndTime.split(" /from | /to ", 3);
+            if (eventParts.length < 3 || eventParts[0].isBlank()
+                    || eventParts[1].isBlank() || eventParts[2].isBlank()) {
+                throw new RudraException("Please use: event DESCRIPTION /from START /to END");
+            }
+            tasks[taskCount] = new Event(eventParts[0], eventParts[1], eventParts[2]);
+            printTaskAdded(tasks[taskCount], taskCount + 1);
+            return taskCount + 1;
+        }
+
+        throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, or unmark.");
+    }
+
+    private static int parseTaskNumber(String[] parts, int taskCount) throws RudraException {
+        if (parts.length <= 1 || parts[1].isBlank()) {
+            throw new RudraException("Please include a task number.");
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(parts[1]);
+            if (taskNumber < 1 || taskNumber > taskCount) {
+                throw new RudraException("That task number is out of range.");
+            }
+            return taskNumber - 1;
+        } catch (NumberFormatException e) {
+            throw new RudraException("Task numbers should be whole numbers.");
+        }
+    }
+
+    private static String requireDescription(String[] parts, String taskType) throws RudraException {
+        if (parts.length <= 1 || parts[1].isBlank()) {
+            throw new RudraException("The description of a " + taskType + " cannot be empty.");
+        }
+        return parts[1];
+    }
+
+    private static void printTaskAdded(Task task, int updatedTaskCount) {
+        System.out.println("Got it. I've added this task:");
+        System.out.println(task);
+        System.out.println("Now you have " + updatedTaskCount + " tasks in the list.");
+        System.out.println(LINE);
     }
 }
