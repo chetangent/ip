@@ -59,8 +59,10 @@ public class Rudra {
 * */
     private static void handleCommand(String command, ArrayList<Task> tasks) throws RudraException {
         String[] parts = command.split(" ", 2);
+        CommandWord commandWord = CommandWord.from(parts[0]).orElseThrow(() -> new RudraException(
+                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete."));
 
-        if ("list".equals(command)) {
+        if (commandWord == CommandWord.LIST && parts.length == 1) {
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < tasks.size(); i++) {
                 System.out.println((i + 1) + "." + tasks.get(i));
@@ -68,70 +70,65 @@ public class Rudra {
             System.out.println(LINE);
             return;
         }
-
-        if ("mark".equals(parts[0])) {
-            int taskIndex = parseTaskNumber(parts, tasks.size());
-            tasks.get(taskIndex).markAsDone();
+        // Used Codex to suggest and build in Enums
+        switch (commandWord) {
+        case MARK:
+            int taskIndexToMark = parseTaskNumber(parts, tasks.size());
+            tasks.get(taskIndexToMark).markAsDone();
             System.out.println("Nice! I've marked this task as done:");
-            System.out.println(tasks.get(taskIndex));
+            System.out.println(tasks.get(taskIndexToMark));
             System.out.println(LINE);
             return;
-        }
-
-        if ("unmark".equals(parts[0])) {
-            int taskIndex = parseTaskNumber(parts, tasks.size());
-            tasks.get(taskIndex).markAsNotDone();
+        case UNMARK:
+            int taskIndexToUnmark = parseTaskNumber(parts, tasks.size());
+            tasks.get(taskIndexToUnmark).markAsNotDone();
             System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println(tasks.get(taskIndex));
+            System.out.println(tasks.get(taskIndexToUnmark));
             System.out.println(LINE);
             return;
-        }
-
-        if ("delete".equals(parts[0])) {
-            int taskIndex = parseTaskNumber(parts, tasks.size());
-            Task removedTask = tasks.remove(taskIndex);
+        case DELETE:
+            int taskIndexToDelete = parseTaskNumber(parts, tasks.size());
+            Task removedTask = tasks.remove(taskIndexToDelete);
             System.out.println("Noted. I've removed this task:");
             System.out.println(removedTask);
             System.out.println("Now you have " + tasks.size() + " tasks in the list.");
             System.out.println(LINE);
             return;
-        }
-
-        if ("todo".equals(parts[0])) {
-            String description = requireDescription(parts, "todo");
-            Task newTask = new ToDo(description);
-            tasks.add(newTask);
-            printTaskAdded(newTask, tasks.size());
+        case TODO:
+            String todoDescription = requireDescription(parts, "todo");
+            Task todoTask = new ToDo(todoDescription);
+            tasks.add(todoTask);
+            printTaskAdded(todoTask, tasks.size());
             return;
-        }
-
-        if ("deadline".equals(parts[0])) {
+        case DEADLINE:
             String descriptionAndBy = requireDescription(parts, "deadline");
             String[] deadlineParts = descriptionAndBy.split(" /by ", 2);
             if (deadlineParts.length < 2 || deadlineParts[0].isBlank() || deadlineParts[1].isBlank()) {
                 throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
             }
-            Task newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
-            tasks.add(newTask);
-            printTaskAdded(newTask, tasks.size());
+            Task deadlineTask = new Deadline(deadlineParts[0], deadlineParts[1]);
+            tasks.add(deadlineTask);
+            printTaskAdded(deadlineTask, tasks.size());
             return;
-        }
-
-        if ("event".equals(parts[0])) {
+        case EVENT:
             String descriptionAndTime = requireDescription(parts, "event");
             String[] eventParts = descriptionAndTime.split(" /from | /to ", 3);
             if (eventParts.length < 3 || eventParts[0].isBlank()
                     || eventParts[1].isBlank() || eventParts[2].isBlank()) {
                 throw new RudraException("Please use: event DESCRIPTION /from START /to END");
             }
-            Task newTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
-            tasks.add(newTask);
-            printTaskAdded(newTask, tasks.size());
+            Task eventTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
+            tasks.add(eventTask);
+            printTaskAdded(eventTask, tasks.size());
             return;
+        case LIST:
+            break;
+        default:
+            break;
         }
 
-        throw new RudraException(
-                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete.");
+        throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark,"
+                + " or delete.");
     }
 
     private static int parseTaskNumber(String[] parts, int taskCount) throws RudraException {

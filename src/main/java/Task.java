@@ -7,15 +7,18 @@
  * Represents a task with a description and completion status.
  */
 public class Task {
+    private final TaskType taskType;
     private final String description;
     private boolean isDone;
 
     /**
      * Creates a task that is not done yet.
      *
+     * @param taskType Type of task being created.
      * @param description Description of the task.
      */
-    public Task(String description) {
+    public Task(TaskType taskType, String description) {
+        this.taskType = taskType;
         this.description = description;
         this.isDone = false;
     }
@@ -49,6 +52,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + this.description;
+        return "[" + this.taskType.getDisplayCode() + "][" + getStatusIcon() + "] " + this.description;
     }
 }
