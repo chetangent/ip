@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -33,8 +34,7 @@ public class Rudra {
         * as well as the error catching
         * */
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
@@ -45,49 +45,64 @@ public class Rudra {
             }
 
             try {
-                taskCount = handleCommand(command, tasks, taskCount);
+                handleCommand(command, tasks);
             } catch (RudraException e) {
                 System.out.println(e.getMessage());
                 System.out.println(LINE);
             }
         }
     }
-
-    private static int handleCommand(String command, Task[] tasks, int taskCount) throws RudraException {
+/*
+* I used Codex to refactor this part and split the logic into
+* 2 during the exception handling part, originally it was one
+* chunk and now there is the handle command part.
+* */
+    private static void handleCommand(String command, ArrayList<Task> tasks) throws RudraException {
         String[] parts = command.split(" ", 2);
 
         if ("list".equals(command)) {
             System.out.println("Here are the tasks in your list:");
-            for (int i = 1; i < taskCount + 1; i++) {
-                System.out.println(i + "." + tasks[i - 1]);
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + "." + tasks.get(i));
             }
             System.out.println(LINE);
-            return taskCount;
+            return;
         }
 
         if ("mark".equals(parts[0])) {
-            int taskIndex = parseTaskNumber(parts, taskCount);
-            tasks[taskIndex].markAsDone();
+            int taskIndex = parseTaskNumber(parts, tasks.size());
+            tasks.get(taskIndex).markAsDone();
             System.out.println("Nice! I've marked this task as done:");
-            System.out.println(tasks[taskIndex]);
+            System.out.println(tasks.get(taskIndex));
             System.out.println(LINE);
-            return taskCount;
+            return;
         }
 
         if ("unmark".equals(parts[0])) {
-            int taskIndex = parseTaskNumber(parts, taskCount);
-            tasks[taskIndex].markAsNotDone();
+            int taskIndex = parseTaskNumber(parts, tasks.size());
+            tasks.get(taskIndex).markAsNotDone();
             System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println(tasks[taskIndex]);
+            System.out.println(tasks.get(taskIndex));
             System.out.println(LINE);
-            return taskCount;
+            return;
+        }
+
+        if ("delete".equals(parts[0])) {
+            int taskIndex = parseTaskNumber(parts, tasks.size());
+            Task removedTask = tasks.remove(taskIndex);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println(removedTask);
+            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            System.out.println(LINE);
+            return;
         }
 
         if ("todo".equals(parts[0])) {
             String description = requireDescription(parts, "todo");
-            tasks[taskCount] = new ToDo(description);
-            printTaskAdded(tasks[taskCount], taskCount + 1);
-            return taskCount + 1;
+            Task newTask = new ToDo(description);
+            tasks.add(newTask);
+            printTaskAdded(newTask, tasks.size());
+            return;
         }
 
         if ("deadline".equals(parts[0])) {
@@ -96,9 +111,10 @@ public class Rudra {
             if (deadlineParts.length < 2 || deadlineParts[0].isBlank() || deadlineParts[1].isBlank()) {
                 throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
             }
-            tasks[taskCount] = new Deadline(deadlineParts[0], deadlineParts[1]);
-            printTaskAdded(tasks[taskCount], taskCount + 1);
-            return taskCount + 1;
+            Task newTask = new Deadline(deadlineParts[0], deadlineParts[1]);
+            tasks.add(newTask);
+            printTaskAdded(newTask, tasks.size());
+            return;
         }
 
         if ("event".equals(parts[0])) {
@@ -108,12 +124,14 @@ public class Rudra {
                     || eventParts[1].isBlank() || eventParts[2].isBlank()) {
                 throw new RudraException("Please use: event DESCRIPTION /from START /to END");
             }
-            tasks[taskCount] = new Event(eventParts[0], eventParts[1], eventParts[2]);
-            printTaskAdded(tasks[taskCount], taskCount + 1);
-            return taskCount + 1;
+            Task newTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
+            tasks.add(newTask);
+            printTaskAdded(newTask, tasks.size());
+            return;
         }
 
-        throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, or unmark.");
+        throw new RudraException(
+                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete.");
     }
 
     private static int parseTaskNumber(String[] parts, int taskCount) throws RudraException {
