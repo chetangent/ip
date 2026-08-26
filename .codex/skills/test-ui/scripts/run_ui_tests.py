@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[4]
 PLAN_PATH = ROOT / "test" / "ui-test-plan.md"
 LOG_PATH = ROOT / "test" / "ui-test-session.log"
+DATA_PATH = ROOT / "data" / "rudra.txt"
 SRC_DIR = ROOT / "src" / "main" / "java"
 MAIN_CLASS = "Rudra"
 
@@ -21,6 +22,8 @@ MAIN_CLASS = "Rudra"
 class TestCase:
     name: str
     aim: str
+    preloaded_save_file: str
+    save_path_mode: str
     inputs: str
     expected_output: str
 
@@ -29,6 +32,8 @@ def parse_cases(plan_text: str) -> list[TestCase]:
     pattern = re.compile(
         r"^## (?P<name>.+?)\n"
         r"Aim:\s*(?P<aim>.+?)\n+"
+        r"(?:### Preloaded Save File\n```(?:text)?\n(?P<preload>.*?)\n```\n+)?"
+        r"(?:Save Path Mode:\s*(?P<save_path_mode>.+?)\n+)?"
         r"### Inputs\n```(?:text)?\n(?P<inputs>.*?)\n```\n+"
         r"### Expected Output\n```(?:text)?\n(?P<expected>.*?)\n```",
         re.MULTILINE | re.DOTALL,
@@ -39,6 +44,8 @@ def parse_cases(plan_text: str) -> list[TestCase]:
             TestCase(
                 name=match.group("name").strip(),
                 aim=match.group("aim").strip(),
+                preloaded_save_file=(match.group("preload") or "").rstrip(),
+                save_path_mode=(match.group("save_path_mode") or "file").strip(),
                 inputs=match.group("inputs").rstrip(),
                 expected_output=match.group("expected").rstrip(),
             )
@@ -72,6 +79,18 @@ def compile_project() -> None:
 
 
 def run_case(test_case: TestCase) -> tuple[str, str]:
+    DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if DATA_PATH.exists():
+        if DATA_PATH.is_dir():
+            DATA_PATH.rmdir()
+        else:
+            DATA_PATH.unlink()
+
+    if test_case.save_path_mode == "directory":
+        DATA_PATH.mkdir(parents=True, exist_ok=True)
+    elif test_case.preloaded_save_file:
+        DATA_PATH.write_text(test_case.preloaded_save_file + "\n")
+
     process = subprocess.run(
         ["java", "-cp", str(SRC_DIR), MAIN_CLASS],
         cwd=ROOT,

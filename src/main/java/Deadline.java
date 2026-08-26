@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Represents a task that should be completed by a specific time.
  */
@@ -13,6 +15,13 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(TaskType.DEADLINE, description);
         this.by = by;
+    }
+
+    @Override
+    protected List<String> getStorageFields() {
+        List<String> storageFields = super.getStorageFields();
+        storageFields.add(this.by);
+        return storageFields;
     }
 
     @Override

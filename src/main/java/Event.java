@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Represents an event task with a start and end time.
  */
@@ -16,6 +18,14 @@ public class Event extends Task {
         super(TaskType.EVENT, description);
         this.from = from;
         this.to = to;
+    }
+
+    @Override
+    protected List<String> getStorageFields() {
+        List<String> storageFields = super.getStorageFields();
+        storageFields.add(this.from);
+        storageFields.add(this.to);
+        return storageFields;
     }
 
     @Override

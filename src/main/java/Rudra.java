@@ -6,6 +6,7 @@ import java.util.Scanner;
  */
 public class Rudra {
     private static final String LINE = "____________________________________________________________";
+    private static final String DATA_FILE_PATH = "data/rudra.txt";
 
     /**
      * Starts the chatbot and handles user input until the user enters {@code bye}.
@@ -34,7 +35,8 @@ public class Rudra {
         * as well as the error catching
         * */
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage(DATA_FILE_PATH);
+        ArrayList<Task> tasks = loadTasksAtStartup(storage);
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
@@ -45,7 +47,7 @@ public class Rudra {
             }
 
             try {
-                handleCommand(command, tasks);
+                handleCommand(command, tasks, storage);
             } catch (RudraException e) {
                 System.out.println(e.getMessage());
                 System.out.println(LINE);
@@ -57,7 +59,7 @@ public class Rudra {
 * 2 during the exception handling part, originally it was one
 * chunk and now there is the handle command part.
 * */
-    private static void handleCommand(String command, ArrayList<Task> tasks) throws RudraException {
+    private static void handleCommand(String command, ArrayList<Task> tasks, Storage storage) throws RudraException {
         String[] parts = command.split(" ", 2);
         CommandWord commandWord = CommandWord.from(parts[0]).orElseThrow(() -> new RudraException(
                 "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete."));
@@ -74,21 +76,21 @@ public class Rudra {
         switch (commandWord) {
         case MARK:
             int taskIndexToMark = parseTaskNumber(parts, tasks.size());
-            tasks.get(taskIndexToMark).markAsDone();
+            markTask(tasks, taskIndexToMark, storage, true);
             System.out.println("Nice! I've marked this task as done:");
             System.out.println(tasks.get(taskIndexToMark));
             System.out.println(LINE);
             return;
         case UNMARK:
             int taskIndexToUnmark = parseTaskNumber(parts, tasks.size());
-            tasks.get(taskIndexToUnmark).markAsNotDone();
+            markTask(tasks, taskIndexToUnmark, storage, false);
             System.out.println("OK, I've marked this task as not done yet:");
             System.out.println(tasks.get(taskIndexToUnmark));
             System.out.println(LINE);
             return;
         case DELETE:
             int taskIndexToDelete = parseTaskNumber(parts, tasks.size());
-            Task removedTask = tasks.remove(taskIndexToDelete);
+            Task removedTask = deleteTask(tasks, taskIndexToDelete, storage);
             System.out.println("Noted. I've removed this task:");
             System.out.println(removedTask);
             System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -97,7 +99,7 @@ public class Rudra {
         case TODO:
             String todoDescription = requireDescription(parts, "todo");
             Task todoTask = new ToDo(todoDescription);
-            tasks.add(todoTask);
+            addTask(tasks, todoTask, storage);
             printTaskAdded(todoTask, tasks.size());
             return;
         case DEADLINE:
@@ -107,7 +109,7 @@ public class Rudra {
                 throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
             }
             Task deadlineTask = new Deadline(deadlineParts[0], deadlineParts[1]);
-            tasks.add(deadlineTask);
+            addTask(tasks, deadlineTask, storage);
             printTaskAdded(deadlineTask, tasks.size());
             return;
         case EVENT:
@@ -118,7 +120,7 @@ public class Rudra {
                 throw new RudraException("Please use: event DESCRIPTION /from START /to END");
             }
             Task eventTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
-            tasks.add(eventTask);
+            addTask(tasks, eventTask, storage);
             printTaskAdded(eventTask, tasks.size());
             return;
         case LIST:
@@ -159,5 +161,99 @@ public class Rudra {
         System.out.println(task);
         System.out.println("Now you have " + updatedTaskCount + " tasks in the list.");
         System.out.println(LINE);
+    }
+
+    /**
+     * Loads tasks from disk when the chatbot starts and reports any recoverable storage issues.
+     *
+     * @param storage Storage helper used to read saved tasks.
+     * @return Task list to use for this session.
+     */
+    private static ArrayList<Task> loadTasksAtStartup(Storage storage) {
+        try {
+            Storage.LoadResult loadResult = storage.loadTasks();
+            if (loadResult.getSkippedTaskCount() > 0) {
+                System.out.println("Warning: I skipped " + loadResult.getSkippedTaskCount()
+                        + " corrupted saved task(s).");
+                System.out.println(LINE);
+            }
+            return loadResult.getTasks();
+        } catch (RudraException e) {
+            System.out.println(e.getMessage());
+            System.out.println("I'm starting with an empty task list instead.");
+            System.out.println(LINE);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Adds a task and rolls back the change if saving fails.
+     *
+     * @param tasks Current task list.
+     * @param task Task to add.
+     * @param storage Storage helper used to persist the list.
+     * @throws RudraException If saving fails.
+     */
+    private static void addTask(ArrayList<Task> tasks, Task task, Storage storage) throws RudraException {
+        tasks.add(task);
+        try {
+            storage.saveTasks(tasks);
+        } catch (RudraException e) {
+            tasks.remove(tasks.size() - 1);
+            throw new RudraException(e.getMessage() + " Your task list was left unchanged.");
+        }
+    }
+
+    /**
+     * Marks or unmarks a task and rolls back the change if saving fails.
+     *
+     * @param tasks Current task list.
+     * @param taskIndex Index of the task to update.
+     * @param storage Storage helper used to persist the list.
+     * @param shouldMarkAsDone Whether the task should be marked done.
+     * @throws RudraException If saving fails.
+     */
+    private static void markTask(ArrayList<Task> tasks, int taskIndex, Storage storage, boolean shouldMarkAsDone)
+            throws RudraException {
+        Task task = tasks.get(taskIndex);
+        boolean wasDone = task.isDone();
+
+        if (shouldMarkAsDone) {
+            task.markAsDone();
+        } else {
+            task.markAsNotDone();
+        }
+
+        try {
+            storage.saveTasks(tasks);
+        } catch (RudraException e) {
+            if (wasDone) {
+                task.markAsDone();
+            } else {
+                task.markAsNotDone();
+            }
+            throw new RudraException(e.getMessage() + " Your task list was left unchanged.");
+        }
+    }
+
+    /**
+     * Deletes a task and restores it if saving fails.
+     *
+     * @param tasks Current task list.
+     * @param taskIndex Index of the task to delete.
+     * @param storage Storage helper used to persist the list.
+     * @return Removed task.
+     * @throws RudraException If saving fails.
+     */
+    private static Task deleteTask(ArrayList<Task> tasks, int taskIndex, Storage storage) throws RudraException {
+        Task removedTask = tasks.remove(taskIndex);
+
+        try {
+            storage.saveTasks(tasks);
+            return removedTask;
+        } catch (RudraException e) {
+            tasks.add(taskIndex, removedTask);
+            throw new RudraException(e.getMessage() + " Your task list was left unchanged.");
+        }
     }
 }
