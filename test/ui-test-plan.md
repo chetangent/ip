@@ -149,6 +149,199 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
+## Mark and unmark a task
+Aim: Verify that successful task status updates still show the correct task list after autosave is triggered.
+
+### Inputs
+```text
+todo borrow book
+mark 1
+unmark 1
+list
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Got it. I've added this task:
+[T][ ] borrow book
+Now you have 1 tasks in the list.
+____________________________________________________________
+Nice! I've marked this task as done:
+[T][X] borrow book
+____________________________________________________________
+OK, I've marked this task as not done yet:
+[T][ ] borrow book
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] borrow book
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Load saved tasks on startup
+Aim: Verify that previously saved tasks are loaded from the save file when the chatbot starts.
+
+### Preloaded Save File
+```text
+T | 1 | read book
+D | 0 | return book | June 6th
+E | 0 | project meeting | Aug 6th 2pm | 4pm
+```
+
+### Inputs
+```text
+list
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: June 6th)
+3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Load tasks with escaped separators
+Aim: Verify that saved task details containing the storage separator are restored correctly.
+
+### Preloaded Save File
+```text
+T | 0 | revise \| review notes
+D | 1 | return \| renew book | June 6th
+E | 0 | project \| sync | Aug 6th 2pm | Lab \| Zoom
+```
+
+### Inputs
+```text
+list
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] revise | review notes
+2.[D][X] return | renew book (by: June 6th)
+3.[E][ ] project | sync (from: Aug 6th 2pm to: Lab | Zoom)
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Skip corrupted saved tasks
+Aim: Verify that corrupted saved lines are ignored while valid saved tasks still load.
+
+### Preloaded Save File
+```text
+T | 0 | keep me
+Z | 1 | unknown task type
+D | 2 | invalid status | tomorrow
+E | 0 | missing end time | Aug 6th 2pm
+```
+
+### Inputs
+```text
+list
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Warning: I skipped 3 corrupted saved task(s).
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] keep me
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Keep list unchanged when saving fails
+Aim: Verify that a save failure reports the problem and rolls back the in-memory change.
+
+### Preloaded Save File
+```text
+T | 0 | keep me
+```
+
+Save Path Mode: directory
+
+### Inputs
+```text
+todo new task
+list
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+I couldn't read the saved tasks from data/rudra.txt.
+I'm starting with an empty task list instead.
+____________________________________________________________
+I couldn't save your tasks to data/rudra.txt. Your task list was left unchanged.
+____________________________________________________________
+Here are the tasks in your list:
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
 ## Reject malformed deadline input
 Aim: Verify that a deadline missing the /by section is rejected with format guidance.
 
