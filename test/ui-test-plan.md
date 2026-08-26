@@ -196,8 +196,8 @@ Aim: Verify that previously saved tasks are loaded from the save file when the c
 ### Preloaded Save File
 ```text
 T | 1 | read book
-D | 0 | return book | June 6th
-E | 0 | project meeting | Aug 6th 2pm | 4pm
+D | 0 | return book | 2026-06-06
+E | 0 | project meeting | 2026-08-06 1400 | 2026-08-06 1600
 ```
 
 ### Inputs
@@ -220,8 +220,8 @@ What can I do for you?
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][X] read book
-2.[D][ ] return book (by: June 6th)
-3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+2.[D][ ] return book (by: Jun 6 2026)
+3.[E][ ] project meeting (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
@@ -233,8 +233,8 @@ Aim: Verify that saved task details containing the storage separator are restore
 ### Preloaded Save File
 ```text
 T | 0 | revise \| review notes
-D | 1 | return \| renew book | June 6th
-E | 0 | project \| sync | Aug 6th 2pm | Lab \| Zoom
+D | 1 | return \| renew book | 2026-06-06
+E | 0 | project \| sync | 2026-08-06 1400 | 2026-08-06 1600
 ```
 
 ### Inputs
@@ -257,8 +257,8 @@ What can I do for you?
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] revise | review notes
-2.[D][X] return | renew book (by: June 6th)
-3.[E][ ] project | sync (from: Aug 6th 2pm to: Lab | Zoom)
+2.[D][X] return | renew book (by: Jun 6 2026)
+3.[E][ ] project | sync (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
@@ -369,14 +369,80 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
+## Format parsed deadline and event dates
+Aim: Verify that valid date and date-time inputs are parsed and shown in the friendly output format.
+
+### Inputs
+```text
+deadline return book /by 2026-12-02
+event project meeting /from 2026-12-02 1400 /to 2026-12-02 1600
+list
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Dec 2 2026)
+Now you have 1 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[E][ ] project meeting (from: Dec 2 2026 2:00pm to: Dec 2 2026 4:00pm)
+Now you have 2 tasks in the list.
+____________________________________________________________
+Here are the tasks in your list:
+1.[D][ ] return book (by: Dec 2 2026)
+2.[E][ ] project meeting (from: Dec 2 2026 2:00pm to: Dec 2 2026 4:00pm)
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Reject invalid deadline date
+Aim: Verify that an invalid deadline date format is rejected with a helpful message.
+
+### Inputs
+```text
+deadline return book /by June 6th
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Please enter dates as yyyy-mm-dd or yyyy-mm-dd HHmm.
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
 ## Delete a task from the middle of the list
 Aim: Verify that deleting a task removes the correct item and updates the task count.
 
 ### Inputs
 ```text
 todo read book
-deadline return book /by June 6th
-event project meeting /from Aug 6th 2pm /to 4pm
+deadline return book /by 2026-06-06
+event project meeting /from 2026-08-06 1400 /to 2026-08-06 1600
 delete 2
 list
 bye
@@ -399,20 +465,20 @@ Got it. I've added this task:
 Now you have 1 tasks in the list.
 ____________________________________________________________
 Got it. I've added this task:
-[D][ ] return book (by: June 6th)
+[D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 Got it. I've added this task:
-[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+[E][ ] project meeting (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 Noted. I've removed this task:
-[D][ ] return book (by: June 6th)
+[D][ ] return book (by: Jun 6 2026)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book
-2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+2.[E][ ] project meeting (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________

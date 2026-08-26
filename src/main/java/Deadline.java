@@ -4,7 +4,7 @@ import java.util.List;
  * Represents a task that should be completed by a specific time.
  */
 public class Deadline extends Task {
-    private final String by;
+    private final TaskDateTime by;
 
     /**
      * Creates a deadline task with a description and due time.
@@ -12,7 +12,7 @@ public class Deadline extends Task {
      * @param description Description of the task.
      * @param by Due time entered by the user.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, TaskDateTime by) {
         super(TaskType.DEADLINE, description);
         this.by = by;
     }
@@ -20,12 +20,12 @@ public class Deadline extends Task {
     @Override
     protected List<String> getStorageFields() {
         List<String> storageFields = super.getStorageFields();
-        storageFields.add(this.by);
+        storageFields.add(this.by.toStorageString());
         return storageFields;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " (by: " + this.by + ")";
+        return super.toString() + " (by: " + this.by.toDisplayString() + ")";
     }
 }

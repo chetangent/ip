@@ -4,8 +4,8 @@ import java.util.List;
  * Represents an event task with a start and end time.
  */
 public class Event extends Task {
-    private final String from;
-    private final String to;
+    private final TaskDateTime from;
+    private final TaskDateTime to;
 
     /**
      * Creates an event task with the given time range.
@@ -14,7 +14,7 @@ public class Event extends Task {
      * @param from Start time entered by the user.
      * @param to End time entered by the user.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, TaskDateTime from, TaskDateTime to) {
         super(TaskType.EVENT, description);
         this.from = from;
         this.to = to;
@@ -23,13 +23,14 @@ public class Event extends Task {
     @Override
     protected List<String> getStorageFields() {
         List<String> storageFields = super.getStorageFields();
-        storageFields.add(this.from);
-        storageFields.add(this.to);
+        storageFields.add(this.from.toStorageString());
+        storageFields.add(this.to.toStorageString());
         return storageFields;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return super.toString() + " (from: " + this.from.toDisplayString()
+                + " to: " + this.to.toDisplayString() + ")";
     }
 }
