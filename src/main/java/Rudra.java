@@ -108,7 +108,7 @@ public class Rudra {
             if (deadlineParts.length < 2 || deadlineParts[0].isBlank() || deadlineParts[1].isBlank()) {
                 throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
             }
-            Task deadlineTask = new Deadline(deadlineParts[0], deadlineParts[1]);
+            Task deadlineTask = new Deadline(deadlineParts[0], TaskDateTime.parse(deadlineParts[1]));
             addTask(tasks, deadlineTask, storage);
             printTaskAdded(deadlineTask, tasks.size());
             return;
@@ -119,7 +119,8 @@ public class Rudra {
                     || eventParts[1].isBlank() || eventParts[2].isBlank()) {
                 throw new RudraException("Please use: event DESCRIPTION /from START /to END");
             }
-            Task eventTask = new Event(eventParts[0], eventParts[1], eventParts[2]);
+            Task eventTask = new Event(eventParts[0], TaskDateTime.parse(eventParts[1]),
+                    TaskDateTime.parse(eventParts[2]));
             addTask(tasks, eventTask, storage);
             printTaskAdded(eventTask, tasks.size());
             return;
