@@ -1,4 +1,13 @@
+package rudra.command;
+
 import java.util.ArrayList;
+
+import rudra.exception.RudraException;
+import rudra.storage.Storage;
+import rudra.task.Event;
+import rudra.task.Task;
+import rudra.task.TaskDateTime;
+import rudra.ui.Ui;
 
 /**
  * Adds an event task to the task list.

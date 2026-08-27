@@ -15,7 +15,7 @@ PLAN_PATH = ROOT / "test" / "ui-test-plan.md"
 LOG_PATH = ROOT / "test" / "ui-test-session.log"
 DATA_PATH = ROOT / "data" / "rudra.txt"
 SRC_DIR = ROOT / "src" / "main" / "java"
-MAIN_CLASS = "Rudra"
+MAIN_CLASS = "rudra.Rudra"
 
 
 @dataclass
@@ -58,7 +58,7 @@ def normalize(text: str) -> str:
 
 
 def compile_project() -> None:
-    java_files = sorted(str(path) for path in SRC_DIR.glob("*.java"))
+    java_files = sorted(str(path) for path in SRC_DIR.rglob("*.java"))
     if not java_files:
         raise SystemExit("No Java source files found under src/main/java.")
 

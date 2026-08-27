@@ -1,4 +1,11 @@
+package rudra.command;
+
 import java.util.ArrayList;
+
+import rudra.exception.RudraException;
+import rudra.storage.Storage;
+import rudra.task.Task;
+import rudra.ui.Ui;
 
 /**
  * Represents one user command that can be executed against the chatbot state.

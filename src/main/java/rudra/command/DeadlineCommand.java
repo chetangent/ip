@@ -1,4 +1,13 @@
+package rudra.command;
+
 import java.util.ArrayList;
+
+import rudra.exception.RudraException;
+import rudra.storage.Storage;
+import rudra.task.Deadline;
+import rudra.task.Task;
+import rudra.task.TaskDateTime;
+import rudra.ui.Ui;
 
 /**
  * Adds a deadline task to the task list.

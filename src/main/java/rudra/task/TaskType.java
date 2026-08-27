@@ -1,3 +1,5 @@
+package rudra.task;
+
 /**
  * Identifies the supported task variants and their display prefixes.
  */

@@ -1,4 +1,14 @@
+package rudra;
+
 import java.util.ArrayList;
+
+import rudra.command.Command;
+import rudra.command.ExitCommand;
+import rudra.exception.RudraException;
+import rudra.parser.Parser;
+import rudra.storage.Storage;
+import rudra.task.Task;
+import rudra.ui.Ui;
 
 /**
  * Rudra is a simple chatbot that echoes user commands until asked to exit.

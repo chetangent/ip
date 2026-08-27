@@ -1,5 +1,9 @@
+package rudra.ui;
+
 import java.util.List;
 import java.util.Scanner;
+
+import rudra.task.Task;
 
 /**
  * Handles console input and output for the chatbot.
