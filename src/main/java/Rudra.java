@@ -1,11 +1,9 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Rudra is a simple chatbot that echoes user commands until asked to exit.
  */
 public class Rudra {
-    private static final String LINE = "____________________________________________________________";
     private static final String DATA_FILE_PATH = "data/rudra.txt";
 
     /**
@@ -14,17 +12,8 @@ public class Rudra {
      * @param args Command-line arguments, which are not used.
      */
     public static void main(String[] args) {
-        String banner = " ____            _            \n"
-                + "|  _ \\ _   _  __| |_ __ __ _ \n"
-                + "| |_) | | | |/ _` | '__/ _` |\n"
-                + "|  _ <| |_| | (_| | | | (_| |\n"
-                + "|_| \\_\\\\__,_|\\__,_|_|  \\__,_|\n";
-
-        System.out.println(LINE);
-        System.out.println(banner);
-        System.out.println("Hello! I'm Rudra.");
-        System.out.println("What can I do for you?");
-        System.out.println(LINE);
+        Ui ui = new Ui();
+        ui.showWelcome();
 
         /* Used Codex to generate this base logic block for echo as I had the main
         idea but forgot how to collect and use user input in Java.
@@ -34,23 +23,20 @@ public class Rudra {
         * to implement that as well as converting String to int
         * as well as the error catching
         * */
-        Scanner scanner = new Scanner(System.in);
         Storage storage = new Storage(DATA_FILE_PATH);
-        ArrayList<Task> tasks = loadTasksAtStartup(storage);
+        ArrayList<Task> tasks = loadTasksAtStartup(storage, ui);
 
-        while (scanner.hasNextLine()) {
-            String command = scanner.nextLine();
+        while (ui.hasNextCommand()) {
+            String command = ui.readCommand();
             if ("bye".equals(command)) {
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println(LINE);
+                ui.showGoodbye();
                 break;
             }
 
             try {
-                handleCommand(command, tasks, storage);
+                handleCommand(command, tasks, storage, ui);
             } catch (RudraException e) {
-                System.out.println(e.getMessage());
-                System.out.println(LINE);
+                ui.showError(e.getMessage());
             }
         }
     }
@@ -59,17 +45,14 @@ public class Rudra {
 * 2 during the exception handling part, originally it was one
 * chunk and now there is the handle command part.
 * */
-    private static void handleCommand(String command, ArrayList<Task> tasks, Storage storage) throws RudraException {
+    private static void handleCommand(String command, ArrayList<Task> tasks, Storage storage, Ui ui)
+            throws RudraException {
         String[] parts = command.split(" ", 2);
         CommandWord commandWord = CommandWord.from(parts[0]).orElseThrow(() -> new RudraException(
                 "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete."));
 
         if (commandWord == CommandWord.LIST && parts.length == 1) {
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + "." + tasks.get(i));
-            }
-            System.out.println(LINE);
+            ui.showTaskList(tasks);
             return;
         }
         // Used Codex to suggest and build in Enums
@@ -77,30 +60,23 @@ public class Rudra {
         case MARK:
             int taskIndexToMark = parseTaskNumber(parts, tasks.size());
             markTask(tasks, taskIndexToMark, storage, true);
-            System.out.println("Nice! I've marked this task as done:");
-            System.out.println(tasks.get(taskIndexToMark));
-            System.out.println(LINE);
+            ui.showTaskMarked(tasks.get(taskIndexToMark));
             return;
         case UNMARK:
             int taskIndexToUnmark = parseTaskNumber(parts, tasks.size());
             markTask(tasks, taskIndexToUnmark, storage, false);
-            System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println(tasks.get(taskIndexToUnmark));
-            System.out.println(LINE);
+            ui.showTaskUnmarked(tasks.get(taskIndexToUnmark));
             return;
         case DELETE:
             int taskIndexToDelete = parseTaskNumber(parts, tasks.size());
             Task removedTask = deleteTask(tasks, taskIndexToDelete, storage);
-            System.out.println("Noted. I've removed this task:");
-            System.out.println(removedTask);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-            System.out.println(LINE);
+            ui.showTaskDeleted(removedTask, tasks.size());
             return;
         case TODO:
             String todoDescription = requireDescription(parts, "todo");
             Task todoTask = new ToDo(todoDescription);
             addTask(tasks, todoTask, storage);
-            printTaskAdded(todoTask, tasks.size());
+            ui.showTaskAdded(todoTask, tasks.size());
             return;
         case DEADLINE:
             String descriptionAndBy = requireDescription(parts, "deadline");
@@ -110,7 +86,7 @@ public class Rudra {
             }
             Task deadlineTask = new Deadline(deadlineParts[0], TaskDateTime.parse(deadlineParts[1]));
             addTask(tasks, deadlineTask, storage);
-            printTaskAdded(deadlineTask, tasks.size());
+            ui.showTaskAdded(deadlineTask, tasks.size());
             return;
         case EVENT:
             String descriptionAndTime = requireDescription(parts, "event");
@@ -122,7 +98,7 @@ public class Rudra {
             Task eventTask = new Event(eventParts[0], TaskDateTime.parse(eventParts[1]),
                     TaskDateTime.parse(eventParts[2]));
             addTask(tasks, eventTask, storage);
-            printTaskAdded(eventTask, tasks.size());
+            ui.showTaskAdded(eventTask, tasks.size());
             return;
         case LIST:
             break;
@@ -157,32 +133,22 @@ public class Rudra {
         return parts[1];
     }
 
-    private static void printTaskAdded(Task task, int updatedTaskCount) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println(task);
-        System.out.println("Now you have " + updatedTaskCount + " tasks in the list.");
-        System.out.println(LINE);
-    }
-
     /**
      * Loads tasks from disk when the chatbot starts and reports any recoverable storage issues.
      *
      * @param storage Storage helper used to read saved tasks.
+     * @param ui UI helper used to print startup messages.
      * @return Task list to use for this session.
      */
-    private static ArrayList<Task> loadTasksAtStartup(Storage storage) {
+    private static ArrayList<Task> loadTasksAtStartup(Storage storage, Ui ui) {
         try {
             Storage.LoadResult loadResult = storage.loadTasks();
             if (loadResult.getSkippedTaskCount() > 0) {
-                System.out.println("Warning: I skipped " + loadResult.getSkippedTaskCount()
-                        + " corrupted saved task(s).");
-                System.out.println(LINE);
+                ui.showCorruptedTaskWarning(loadResult.getSkippedTaskCount());
             }
             return loadResult.getTasks();
         } catch (RudraException e) {
-            System.out.println(e.getMessage());
-            System.out.println("I'm starting with an empty task list instead.");
-            System.out.println(LINE);
+            ui.showLoadingError(e.getMessage());
             return new ArrayList<>();
         }
     }
