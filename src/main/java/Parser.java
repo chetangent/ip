@@ -1,0 +1,95 @@
+/**
+ * Parses raw user input into executable commands.
+ */
+public class Parser {
+    /**
+     * Parses a raw command line into a concrete command.
+     *
+     * @param fullCommand Raw command line entered by the user.
+     * @return Parsed command object.
+     * @throws RudraException If the command is invalid.
+     */
+    public static Command parse(String fullCommand) throws RudraException {
+        String[] parts = fullCommand.split(" ", 2);
+        CommandWord commandWord = CommandWord.from(parts[0]).orElseThrow(() -> new RudraException(
+                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete."));
+
+        switch (commandWord) {
+        case LIST:
+            if (parts.length == 1) {
+                return new ListCommand();
+            }
+            break;
+        case MARK:
+            return new MarkCommand(parseTaskNumber(parts));
+        case UNMARK:
+            return new UnmarkCommand(parseTaskNumber(parts));
+        case DELETE:
+            return new DeleteCommand(parseTaskNumber(parts));
+        case TODO:
+            return new TodoCommand(requireDescription(parts, "todo"));
+        case DEADLINE:
+            return parseDeadlineCommand(parts);
+        case EVENT:
+            return parseEventCommand(parts);
+        default:
+            break;
+        }
+
+        throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark,"
+                + " or delete.");
+    }
+
+    /**
+     * Parses the exit command without going through the command-word enum.
+     *
+     * @param fullCommand Raw command line entered by the user.
+     * @return True if the command should exit the chatbot.
+     */
+    public static boolean isExitCommand(String fullCommand) {
+        return "bye".equals(fullCommand);
+    }
+
+    private static Command parseDeadlineCommand(String[] parts) throws RudraException {
+        String descriptionAndBy = requireDescription(parts, "deadline");
+        String[] deadlineParts = descriptionAndBy.split(" /by ", 2);
+        if (deadlineParts.length < 2 || deadlineParts[0].isBlank() || deadlineParts[1].isBlank()) {
+            throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
+        }
+
+        return new DeadlineCommand(deadlineParts[0], TaskDateTime.parse(deadlineParts[1]));
+    }
+
+    private static Command parseEventCommand(String[] parts) throws RudraException {
+        String descriptionAndTime = requireDescription(parts, "event");
+        String[] eventParts = descriptionAndTime.split(" /from | /to ", 3);
+        if (eventParts.length < 3 || eventParts[0].isBlank() || eventParts[1].isBlank() || eventParts[2].isBlank()) {
+            throw new RudraException("Please use: event DESCRIPTION /from START /to END");
+        }
+
+        return new EventCommand(eventParts[0], TaskDateTime.parse(eventParts[1]), TaskDateTime.parse(eventParts[2]));
+    }
+
+    private static int parseTaskNumber(String[] parts) throws RudraException {
+        if (parts.length <= 1 || parts[1].isBlank()) {
+            throw new RudraException("Please include a task number.");
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(parts[1]);
+            if (taskNumber < 1) {
+                throw new RudraException("That task number is out of range.");
+            }
+            return taskNumber - 1;
+        } catch (NumberFormatException e) {
+            throw new RudraException("Task numbers should be whole numbers.");
+        }
+    }
+
+    private static String requireDescription(String[] parts, String taskType) throws RudraException {
+        if (parts.length <= 1 || parts[1].isBlank()) {
+            throw new RudraException("The description of a " + taskType + " cannot be empty.");
+        }
+        return parts[1];
+    }
+}
