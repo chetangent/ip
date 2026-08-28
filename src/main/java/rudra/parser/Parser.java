@@ -63,6 +63,13 @@ public class Parser {
         return "bye".equals(fullCommand);
     }
 
+    /**
+     * Parses the deadline-specific suffix after the main command word.
+     *
+     * @param parts User input split into command word and remaining text.
+     * @return Parsed deadline command.
+     * @throws RudraException If the description or deadline format is invalid.
+     */
     private static Command parseDeadlineCommand(String[] parts) throws RudraException {
         String descriptionAndBy = requireDescription(parts, "deadline");
         String[] deadlineParts = descriptionAndBy.split(" /by ", 2);
@@ -73,6 +80,13 @@ public class Parser {
         return new DeadlineCommand(deadlineParts[0], TaskDateTime.parse(deadlineParts[1]));
     }
 
+    /**
+     * Parses the event-specific suffix after the main command word.
+     *
+     * @param parts User input split into command word and remaining text.
+     * @return Parsed event command.
+     * @throws RudraException If the description or event time range is invalid.
+     */
     private static Command parseEventCommand(String[] parts) throws RudraException {
         String descriptionAndTime = requireDescription(parts, "event");
         String[] eventParts = descriptionAndTime.split(" /from | /to ", 3);
@@ -83,6 +97,13 @@ public class Parser {
         return new EventCommand(eventParts[0], TaskDateTime.parse(eventParts[1]), TaskDateTime.parse(eventParts[2]));
     }
 
+    /**
+     * Parses a one-based task number from a command that targets an existing task.
+     *
+     * @param parts User input split into command word and remaining text.
+     * @return Zero-based task index.
+     * @throws RudraException If the task number is missing or malformed.
+     */
     private static int parseTaskNumber(String[] parts) throws RudraException {
         if (parts.length <= 1 || parts[1].isBlank()) {
             throw new RudraException("Please include a task number.");
@@ -99,6 +120,14 @@ public class Parser {
         }
     }
 
+    /**
+     * Ensures that a command includes a non-empty description segment.
+     *
+     * @param parts User input split into command word and remaining text.
+     * @param taskType Task type name used in the validation message.
+     * @return Non-empty description text.
+     * @throws RudraException If the description is missing.
+     */
     private static String requireDescription(String[] parts, String taskType) throws RudraException {
         if (parts.length <= 1 || parts[1].isBlank()) {
             throw new RudraException("The description of a " + taskType + " cannot be empty.");

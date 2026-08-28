@@ -51,6 +51,11 @@ public class Task {
         return this.isDone ? "X" : " ";
     }
 
+    /**
+     * Returns the task description text entered by the user.
+     *
+     * @return Task description.
+     */
     public String getDescription() {
         return this.description;
     }
@@ -110,6 +115,11 @@ public class Task {
         return value.replace("\\", "\\\\").replace("|", "\\|");
     }
 
+    /**
+     * Returns the user-facing text for this task.
+     *
+     * @return Formatted task description with type and completion status.
+     */
     @Override
     public String toString() {
         return "[" + this.taskType.getDisplayCode() + "][" + getStatusIcon() + "] " + this.description;

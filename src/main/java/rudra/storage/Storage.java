@@ -129,6 +129,7 @@ public class Storage {
      *
      * @param line Saved task line.
      * @return Reconstructed task.
+     * @throws RudraException If the saved line does not match a supported task format.
      */
     private Task parseTask(String line) throws RudraException {
         List<String> parts = splitStorageLine(line);

@@ -19,6 +19,11 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    /**
+     * Adds the deadline timestamp to the base task storage fields.
+     *
+     * @return Storage fields for a deadline task.
+     */
     @Override
     protected List<String> getStorageFields() {
         List<String> storageFields = super.getStorageFields();
@@ -26,6 +31,11 @@ public class Deadline extends Task {
         return storageFields;
     }
 
+    /**
+     * Returns the user-facing text for this deadline task.
+     *
+     * @return Formatted deadline task description.
+     */
     @Override
     public String toString() {
         return super.toString() + " (by: " + this.by.toDisplayString() + ")";

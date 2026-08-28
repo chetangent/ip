@@ -30,6 +30,14 @@ public class EventCommand extends Command {
         this.to = to;
     }
 
+    /**
+     * Creates and saves the requested event task, then shows the confirmation message.
+     *
+     * @param tasks Current task list.
+     * @param ui UI helper used to show output.
+     * @param storage Storage helper used to persist changes.
+     * @throws RudraException If the task cannot be saved.
+     */
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui, Storage storage) throws RudraException {
         Task eventTask = new Event(this.description, this.from, this.to);

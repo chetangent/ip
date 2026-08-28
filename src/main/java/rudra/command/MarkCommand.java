@@ -22,6 +22,14 @@ public class MarkCommand extends Command {
         this.taskIndex = taskIndex;
     }
 
+    /**
+     * Marks the requested task as done and saves the updated task list.
+     *
+     * @param tasks Current task list.
+     * @param ui UI helper used to show output.
+     * @param storage Storage helper used to persist changes.
+     * @throws RudraException If the task number is invalid or saving fails.
+     */
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui, Storage storage) throws RudraException {
         validateTaskIndex(tasks);
@@ -29,6 +37,12 @@ public class MarkCommand extends Command {
         ui.showTaskMarked(tasks.get(this.taskIndex));
     }
 
+    /**
+     * Ensures the command refers to an existing task before marking it done.
+     *
+     * @param tasks Current task list.
+     * @throws RudraException If the requested index is outside the list.
+     */
     private void validateTaskIndex(ArrayList<Task> tasks) throws RudraException {
         if (this.taskIndex >= tasks.size()) {
             throw new RudraException("That task number is out of range.");

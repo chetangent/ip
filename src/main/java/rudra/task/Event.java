@@ -22,6 +22,11 @@ public class Event extends Task {
         this.to = to;
     }
 
+    /**
+     * Adds the start and end timestamps to the base task storage fields.
+     *
+     * @return Storage fields for an event task.
+     */
     @Override
     protected List<String> getStorageFields() {
         List<String> storageFields = super.getStorageFields();
@@ -30,6 +35,11 @@ public class Event extends Task {
         return storageFields;
     }
 
+    /**
+     * Returns the user-facing text for this event task.
+     *
+     * @return Formatted event task description.
+     */
     @Override
     public String toString() {
         return super.toString() + " (from: " + this.from.toDisplayString()

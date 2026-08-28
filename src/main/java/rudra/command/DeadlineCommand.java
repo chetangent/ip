@@ -27,6 +27,14 @@ public class DeadlineCommand extends Command {
         this.by = by;
     }
 
+    /**
+     * Creates and saves the requested deadline task, then shows the confirmation message.
+     *
+     * @param tasks Current task list.
+     * @param ui UI helper used to show output.
+     * @param storage Storage helper used to persist changes.
+     * @throws RudraException If the task cannot be saved.
+     */
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui, Storage storage) throws RudraException {
         Task deadlineTask = new Deadline(this.description, this.by);
