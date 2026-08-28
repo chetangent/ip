@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import rudra.command.DeadlineCommand;
 import rudra.command.DeleteCommand;
 import rudra.command.EventCommand;
+import rudra.command.FindCommand;
 import rudra.command.ListCommand;
 import rudra.command.MarkCommand;
 import rudra.command.TodoCommand;
@@ -58,10 +59,16 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_findCommand_returnsFindCommand() throws RudraException {
+        assertInstanceOf(FindCommand.class, Parser.parse("find book"));
+    }
+
+    @Test
     public void parse_unknownCommand_throwsRudraException() {
         RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("blah"));
 
-        assertEquals("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete.",
+        assertEquals("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete,"
+                + " or find.",
                 exception.getMessage());
     }
 
@@ -86,6 +93,13 @@ public class ParserTest {
                 () -> Parser.parse("event project meeting /from 2026-08-28 1400"));
 
         assertEquals("Please use: event DESCRIPTION /from START /to END", exception.getMessage());
+    }
+
+    @Test
+    public void parse_missingFindKeyword_throwsRudraException() {
+        RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("find"));
+
+        assertEquals("The keyword for find cannot be empty.", exception.getMessage());
     }
 
     @Test

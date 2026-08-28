@@ -10,6 +10,7 @@ public enum CommandWord {
     MARK("mark"),
     UNMARK("unmark"),
     DELETE("delete"),
+    FIND("find"),
     TODO("todo"),
     DEADLINE("deadline"),
     EVENT("event");

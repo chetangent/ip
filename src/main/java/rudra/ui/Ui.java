@@ -69,10 +69,31 @@ public class Ui {
      */
     public void showTaskList(List<Task> tasks) {
         System.out.println("Here are the tasks in your list:");
+        printTaskCollection(tasks);
+        System.out.println(LINE);
+    }
+
+    /**
+     * Prints the tasks whose descriptions match a search keyword.
+     *
+     * @param matchingTasks Matching tasks to display.
+     */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("I couldn't find any matching tasks.");
+            System.out.println(LINE);
+            return;
+        }
+
+        System.out.println("Here are the matching tasks in your list:");
+        printTaskCollection(matchingTasks);
+        System.out.println(LINE);
+    }
+
+    private void printTaskCollection(List<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
         }
-        System.out.println(LINE);
     }
 
     /**

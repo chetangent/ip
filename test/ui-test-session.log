@@ -57,6 +57,88 @@ ____________________________________________________________
 ```
 
 
+## Find matching tasks by keyword
+Aim: Verify that `find` shows only tasks whose descriptions contain the given keyword.
+
+### Console Input
+```text
+todo read book
+deadline return book /by 2026-06-06
+todo submit assignment
+mark 1
+find book
+bye
+```
+
+### Console Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Jun 6 2026)
+Now you have 2 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[T][ ] submit assignment
+Now you have 3 tasks in the list.
+____________________________________________________________
+Nice! I've marked this task as done:
+[T][X] read book
+____________________________________________________________
+Here are the matching tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: Jun 6 2026)
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+
+## Find with no matching tasks
+Aim: Verify that `find` reports when no task descriptions contain the keyword.
+
+### Console Input
+```text
+todo read book
+find laundry
+bye
+```
+
+### Console Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________________________
+I couldn't find any matching tasks.
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+
 ## Reject an empty todo
 Aim: Verify that a todo without a description is rejected with a clear error message.
 
@@ -106,7 +188,7 @@ ____________________________________________________________
 Hello! I'm Rudra.
 What can I do for you?
 ____________________________________________________________
-I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete.
+I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, or find.
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
