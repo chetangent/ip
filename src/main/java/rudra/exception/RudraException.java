@@ -1,10 +1,5 @@
 package rudra.exception;
 
-/*
-* Already baked in the logic into code during previous levels
-* so used Codex to create and integrate exception class
-* */
-
 /**
  * Represents an error caused by invalid user input to Rudra.
  */

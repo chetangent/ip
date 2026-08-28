@@ -25,14 +25,6 @@ public class Rudra {
         Ui ui = new Ui();
         ui.showWelcome();
 
-        /* Used Codex to generate this base logic block for echo as I had the main
-        idea but forgot how to collect and use user input in Java.
-         */
-        /*
-        * Used Codex to split the input for done as unsure on how
-        * to implement that as well as converting String to int
-        * as well as the error catching
-        * */
         Storage storage = new Storage(DATA_FILE_PATH);
         ArrayList<Task> tasks = loadTasksAtStartup(storage, ui);
 
