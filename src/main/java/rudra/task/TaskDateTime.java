@@ -16,7 +16,8 @@ public class TaskDateTime {
     private static final DateTimeFormatter DATE_TIME_INPUT_WITH_COLON_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter DATE_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy");
-    private static final DateTimeFormatter DATE_TIME_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
+    private static final DateTimeFormatter DATE_TIME_DISPLAY_FORMATTER =
+            DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
 
     private final LocalDateTime value;
     private final boolean hasTime;

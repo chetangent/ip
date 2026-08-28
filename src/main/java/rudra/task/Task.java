@@ -3,11 +3,6 @@ package rudra.task;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* Got codex to create this class based on the partial code
-* as well as integrate this into Rudra.
-* */
-
 /**
  * Represents a task with a description and completion status.
  */
