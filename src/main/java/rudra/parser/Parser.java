@@ -4,6 +4,7 @@ import rudra.command.Command;
 import rudra.command.DeadlineCommand;
 import rudra.command.DeleteCommand;
 import rudra.command.EventCommand;
+import rudra.command.FindCommand;
 import rudra.command.ListCommand;
 import rudra.command.MarkCommand;
 import rudra.command.TodoCommand;
@@ -25,7 +26,8 @@ public class Parser {
     public static Command parse(String fullCommand) throws RudraException {
         String[] parts = fullCommand.split(" ", 2);
         CommandWord commandWord = CommandWord.from(parts[0]).orElseThrow(() -> new RudraException(
-                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or delete."));
+                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete,"
+                        + " or find."));
 
         switch (commandWord) {
         case LIST:
@@ -39,6 +41,8 @@ public class Parser {
             return new UnmarkCommand(parseTaskNumber(parts));
         case DELETE:
             return new DeleteCommand(parseTaskNumber(parts));
+        case FIND:
+            return new FindCommand(requireKeyword(parts));
         case TODO:
             return new TodoCommand(requireDescription(parts, "todo"));
         case DEADLINE:
@@ -50,7 +54,7 @@ public class Parser {
         }
 
         throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark,"
-                + " or delete.");
+                + " delete, or find.");
     }
 
     /**
@@ -102,6 +106,13 @@ public class Parser {
     private static String requireDescription(String[] parts, String taskType) throws RudraException {
         if (parts.length <= 1 || parts[1].isBlank()) {
             throw new RudraException("The description of a " + taskType + " cannot be empty.");
+        }
+        return parts[1];
+    }
+
+    private static String requireKeyword(String[] parts) throws RudraException {
+        if (parts.length <= 1 || parts[1].isBlank()) {
+            throw new RudraException("The keyword for find cannot be empty.");
         }
         return parts[1];
     }

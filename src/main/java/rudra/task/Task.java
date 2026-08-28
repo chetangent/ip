@@ -2,6 +2,7 @@ package rudra.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /*
 * Got codex to create this class based on the partial code
@@ -53,6 +54,18 @@ public class Task {
 
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Returns whether the task description contains the given keyword, ignoring letter case.
+     *
+     * @param keyword Search term entered by the user.
+     * @return {@code true} if the description contains the keyword.
+     */
+    public boolean matchesKeyword(String keyword) {
+        String normalizedDescription = this.description.toLowerCase(Locale.ROOT);
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        return normalizedDescription.contains(normalizedKeyword);
     }
 
     /**
