@@ -81,16 +81,15 @@ public class ParserTest {
 
     @Test
     public void parse_malformedDeadline_throwsRudraException() {
-        RudraException exception = assertThrows(RudraException.class,
-                () -> Parser.parse("deadline return book"));
+        RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("deadline return book"));
 
         assertEquals("Please use: deadline DESCRIPTION /by WHEN", exception.getMessage());
     }
 
     @Test
     public void parse_malformedEvent_throwsRudraException() {
-        RudraException exception = assertThrows(RudraException.class,
-                () -> Parser.parse("event project meeting /from 2026-08-28 1400"));
+        RudraException exception = assertThrows(RudraException.class, () -> Parser.parse(
+                "event project meeting /from 2026-08-28 1400"));
 
         assertEquals("Please use: event DESCRIPTION /from START /to END", exception.getMessage());
     }

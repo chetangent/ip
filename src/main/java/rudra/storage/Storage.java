@@ -139,26 +139,26 @@ public class Storage {
 
         Task task;
         switch (parts.get(0)) {
-        case "T":
-            if (parts.size() != 3 || parts.get(2).isBlank()) {
-                throw new RudraException("Saved todo task is invalid.");
-            }
-            task = new ToDo(parts.get(2));
-            break;
-        case "D":
-            if (parts.size() != 4 || parts.get(2).isBlank() || parts.get(3).isBlank()) {
-                throw new RudraException("Saved deadline task is invalid.");
-            }
-            task = new Deadline(parts.get(2), TaskDateTime.parse(parts.get(3)));
-            break;
-        case "E":
-            if (parts.size() != 5 || parts.get(2).isBlank() || parts.get(3).isBlank() || parts.get(4).isBlank()) {
-                throw new RudraException("Saved event task is invalid.");
-            }
-            task = new Event(parts.get(2), TaskDateTime.parse(parts.get(3)), TaskDateTime.parse(parts.get(4)));
-            break;
-        default:
-            throw new RudraException("Saved task type is not recognized.");
+            case "T":
+                if (parts.size() != 3 || parts.get(2).isBlank()) {
+                    throw new RudraException("Saved todo task is invalid.");
+                }
+                task = new ToDo(parts.get(2));
+                break;
+            case "D":
+                if (parts.size() != 4 || parts.get(2).isBlank() || parts.get(3).isBlank()) {
+                    throw new RudraException("Saved deadline task is invalid.");
+                }
+                task = new Deadline(parts.get(2), TaskDateTime.parse(parts.get(3)));
+                break;
+            case "E":
+                if (parts.size() != 5 || parts.get(2).isBlank() || parts.get(3).isBlank() || parts.get(4).isBlank()) {
+                    throw new RudraException("Saved event task is invalid.");
+                }
+                task = new Event(parts.get(2), TaskDateTime.parse(parts.get(3)), TaskDateTime.parse(parts.get(4)));
+                break;
+            default:
+                throw new RudraException("Saved task type is not recognized.");
         }
 
         if ("1".equals(parts.get(1))) {

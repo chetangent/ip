@@ -30,27 +30,27 @@ public class Parser {
                         + " or find."));
 
         switch (commandWord) {
-        case LIST:
-            if (parts.length == 1) {
-                return new ListCommand();
-            }
-            break;
-        case MARK:
-            return new MarkCommand(parseTaskNumber(parts));
-        case UNMARK:
-            return new UnmarkCommand(parseTaskNumber(parts));
-        case DELETE:
-            return new DeleteCommand(parseTaskNumber(parts));
-        case FIND:
-            return new FindCommand(requireKeyword(parts));
-        case TODO:
-            return new TodoCommand(requireDescription(parts, "todo"));
-        case DEADLINE:
-            return parseDeadlineCommand(parts);
-        case EVENT:
-            return parseEventCommand(parts);
-        default:
-            break;
+            case LIST:
+                if (parts.length == 1) {
+                    return new ListCommand();
+                }
+                break;
+            case MARK:
+                return new MarkCommand(parseTaskNumber(parts));
+            case UNMARK:
+                return new UnmarkCommand(parseTaskNumber(parts));
+            case DELETE:
+                return new DeleteCommand(parseTaskNumber(parts));
+            case FIND:
+                return new FindCommand(requireKeyword(parts));
+            case TODO:
+                return new TodoCommand(requireDescription(parts, "todo"));
+            case DEADLINE:
+                return parseDeadlineCommand(parts);
+            case EVENT:
+                return parseEventCommand(parts);
+            default:
+                break;
         }
 
         throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark,"
