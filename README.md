@@ -13,13 +13,9 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    1. If there are any further prompts, accept the defaults.
 1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
    In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/rudra/Rudra.java` file, right-click it, and choose `Run Rudra.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-    ____            _            
-   |  _ \ _   _  __| |_ __ __ _ 
-   | |_) | | | |/ _` | '__/ _` |
-   |  _ <| |_| | (_| | | | (_| |
-   |_| \_\\__,_|\__,_|_|  \__,_|
-   ```
+1. Run `./gradlew run`, or locate `src/main/java/rudra/Launcher.java` and choose `Run Launcher.main()`. This opens Rudra's JavaFX chat window.
+1. Enter the existing commands in the message field, for example `todo borrow book`, `list`, or `deadline submit report /by 2026-09-10`.
+
+The GUI is launched through `Launcher`, which starts the separate JavaFX `Application` class. `rudra.Rudra` remains the console entry point used by the scripted console tests.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.

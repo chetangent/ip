@@ -1,30 +1,34 @@
 # Rudra User Guide
 
-// Update the title above to match the actual product name
+Rudra is a desktop task chatbot. Use the chat field to enter commands and press Enter or select Send. Your task list is saved automatically in `data/rudra.txt`.
 
-// Product screenshot goes here
+## Starting Rudra
 
-// Product intro goes here
+Run `./gradlew run` from the project root. The JavaFX window opens with a command guide in the left panel and your task conversation on the right.
 
-## Adding deadlines
+## Managing tasks
 
-// Describe the action and its outcome.
+Add a todo:
 
-// Give examples of usage
-
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
-
-```
-expected output
+```text
+todo borrow book
 ```
 
-## Feature ABC
+Add a deadline or event:
 
-// Feature details
+```text
+deadline submit report /by 2026-09-10
+event team sync /from 2026-09-08 1400 /to 2026-09-08 1500
+```
 
+View, search, and update tasks:
 
-## Feature XYZ
+```text
+list
+find book
+mark 1
+unmark 1
+delete 1
+```
 
-// Feature details
+Enter `bye` to end the current GUI conversation.

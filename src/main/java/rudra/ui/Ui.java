@@ -2,6 +2,7 @@ package rudra.ui;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import rudra.task.Task;
 
@@ -17,23 +18,35 @@ public class Ui {
             + "|_| \\_\\\\__,_|\\__,_|_|  \\__,_|\n";
 
     private final Scanner scanner;
+    private final Consumer<String> output;
 
     /**
      * Creates a UI that reads commands from standard input.
      */
     public Ui() {
         this.scanner = new Scanner(System.in);
+        this.output = System.out::println;
+    }
+
+    /**
+     * Creates a UI that sends chatbot messages to the given output handler.
+     *
+     * @param output Handler for chatbot output messages.
+     */
+    public Ui(Consumer<String> output) {
+        this.scanner = null;
+        this.output = output;
     }
 
     /**
      * Prints the startup banner and greeting.
      */
     public void showWelcome() {
-        System.out.println(LINE);
-        System.out.println(BANNER);
-        System.out.println("Hello! I'm Rudra.");
-        System.out.println("What can I do for you?");
-        System.out.println(LINE);
+        show(LINE);
+        show(BANNER);
+        show("Hello! I'm Rudra.");
+        show("What can I do for you?");
+        show(LINE);
     }
 
     /**
@@ -58,8 +71,8 @@ public class Ui {
      * Prints the farewell message shown when the chatbot exits.
      */
     public void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(LINE);
+        show("Bye. Hope to see you again soon!");
+        show(LINE);
     }
 
     /**
@@ -68,9 +81,9 @@ public class Ui {
      * @param tasks Tasks to display.
      */
     public void showTaskList(List<Task> tasks) {
-        System.out.println("Here are the tasks in your list:");
+        show("Here are the tasks in your list:");
         printTaskCollection(tasks);
-        System.out.println(LINE);
+        show(LINE);
     }
 
     /**
@@ -80,19 +93,19 @@ public class Ui {
      */
     public void showMatchingTasks(List<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
-            System.out.println("I couldn't find any matching tasks.");
-            System.out.println(LINE);
+            show("I couldn't find any matching tasks.");
+            show(LINE);
             return;
         }
 
-        System.out.println("Here are the matching tasks in your list:");
+        show("Here are the matching tasks in your list:");
         printTaskCollection(matchingTasks);
-        System.out.println(LINE);
+        show(LINE);
     }
 
     private void printTaskCollection(List<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            show((i + 1) + "." + tasks.get(i));
         }
     }
 
@@ -103,10 +116,10 @@ public class Ui {
      * @param updatedTaskCount Task count after the addition.
      */
     public void showTaskAdded(Task task, int updatedTaskCount) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println(task);
-        System.out.println("Now you have " + updatedTaskCount + " tasks in the list.");
-        System.out.println(LINE);
+        show("Got it. I've added this task:");
+        show(task.toString());
+        show("Now you have " + updatedTaskCount + " tasks in the list.");
+        show(LINE);
     }
 
     /**
@@ -115,9 +128,9 @@ public class Ui {
      * @param task Updated task.
      */
     public void showTaskMarked(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println(task);
-        System.out.println(LINE);
+        show("Nice! I've marked this task as done:");
+        show(task.toString());
+        show(LINE);
     }
 
     /**
@@ -126,9 +139,9 @@ public class Ui {
      * @param task Updated task.
      */
     public void showTaskUnmarked(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println(task);
-        System.out.println(LINE);
+        show("OK, I've marked this task as not done yet:");
+        show(task.toString());
+        show(LINE);
     }
 
     /**
@@ -138,10 +151,10 @@ public class Ui {
      * @param updatedTaskCount Task count after the deletion.
      */
     public void showTaskDeleted(Task removedTask, int updatedTaskCount) {
-        System.out.println("Noted. I've removed this task:");
-        System.out.println(removedTask);
-        System.out.println("Now you have " + updatedTaskCount + " tasks in the list.");
-        System.out.println(LINE);
+        show("Noted. I've removed this task:");
+        show(removedTask.toString());
+        show("Now you have " + updatedTaskCount + " tasks in the list.");
+        show(LINE);
     }
 
     /**
@@ -150,8 +163,8 @@ public class Ui {
      * @param message Error message to display.
      */
     public void showError(String message) {
-        System.out.println(message);
-        System.out.println(LINE);
+        show(message);
+        show(LINE);
     }
 
     /**
@@ -160,8 +173,8 @@ public class Ui {
      * @param skippedTaskCount Number of skipped tasks.
      */
     public void showCorruptedTaskWarning(int skippedTaskCount) {
-        System.out.println("Warning: I skipped " + skippedTaskCount + " corrupted saved task(s).");
-        System.out.println(LINE);
+        show("Warning: I skipped " + skippedTaskCount + " corrupted saved task(s).");
+        show(LINE);
     }
 
     /**
@@ -170,8 +183,12 @@ public class Ui {
      * @param message Storage error message.
      */
     public void showLoadingError(String message) {
-        System.out.println(message);
-        System.out.println("I'm starting with an empty task list instead.");
-        System.out.println(LINE);
+        show(message);
+        show("I'm starting with an empty task list instead.");
+        show(LINE);
+    }
+
+    private void show(String message) {
+        this.output.accept(message);
     }
 }

@@ -1,0 +1,120 @@
+.app-shell {
+    -fx-background-color: #f4f0e8;
+    -fx-font-family: "Avenir Next", "Gill Sans", sans-serif;
+}
+
+.sidebar {
+    -fx-background-color: #173b3f;
+    -fx-padding: 36 24 28 24;
+}
+
+.brand {
+    -fx-text-fill: #f9c95f;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2px;
+}
+
+.subtitle, .guide, .conversation-hint {
+    -fx-text-fill: #b9cfca;
+    -fx-font-size: 13px;
+    -fx-line-spacing: 4px;
+}
+
+.task-count {
+    -fx-text-fill: #173b3f;
+    -fx-background-color: #f9c95f;
+    -fx-background-radius: 18px;
+    -fx-padding: 7 12 7 12;
+    -fx-font-weight: bold;
+}
+
+.guide-title {
+    -fx-text-fill: #f9c95f;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 24 0 0 0;
+}
+
+.secondary-button, .send-button {
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #8fb4ad;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #ecf4ee;
+    -fx-padding: 10 14 10 14;
+}
+
+.chat-pane {
+    -fx-padding: 34 42 28 42;
+}
+
+.conversation-title {
+    -fx-text-fill: #173b3f;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+}
+
+.conversation-hint {
+    -fx-text-fill: #617a75;
+}
+
+.chat-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.chat-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.conversation {
+    -fx-padding: 18 4 18 4;
+}
+
+.message-row {
+    -fx-padding: 0 0 2 0;
+}
+
+.message {
+    -fx-background-radius: 14px;
+    -fx-padding: 12 15 12 15;
+    -fx-font-size: 14px;
+    -fx-line-spacing: 3px;
+}
+
+.bot-message {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #193a3e;
+}
+
+.user-message {
+    -fx-background-color: #d46d4b;
+    -fx-text-fill: white;
+}
+
+.composer {
+    -fx-padding: 15 0 0 0;
+}
+
+.text-field {
+    -fx-background-radius: 8px;
+    -fx-border-color: #b7c3bb;
+    -fx-border-radius: 8px;
+    -fx-padding: 11 13 11 13;
+    -fx-font-size: 14px;
+}
+
+.send-button {
+    -fx-background-color: #173b3f;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 11 21 11 21;
+}
