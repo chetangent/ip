@@ -30,8 +30,7 @@ public class Event extends Task {
     @Override
     protected List<String> getStorageFields() {
         List<String> storageFields = super.getStorageFields();
-        storageFields.add(this.from.toStorageString());
-        storageFields.add(this.to.toStorageString());
+        addStorageFields(storageFields, this.from.toStorageString(), this.to.toStorageString());
         return storageFields;
     }
 

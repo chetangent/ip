@@ -1,9 +1,12 @@
 package rudra.task;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import rudra.exception.RudraException;
 
 /**
  * Tests for {@link Task}.
@@ -28,5 +31,17 @@ public class TaskTest {
         Task task = new ToDo("submit assignment");
 
         assertFalse(task.matchesKeyword("book"));
+    }
+
+    @Test
+    public void toStorageString_taskTypes_returnsFieldsInStorageOrder() throws RudraException {
+        Task todo = new ToDo("borrow book");
+        Task deadline = new Deadline("return book", TaskDateTime.parse("2026-08-28"));
+        Task event = new Event("project sync", TaskDateTime.parse("2026-08-28 1400"),
+                TaskDateTime.parse("2026-08-28 1600"));
+
+        assertEquals("T | 0 | borrow book", todo.toStorageString());
+        assertEquals("D | 0 | return book | 2026-08-28", deadline.toStorageString());
+        assertEquals("E | 0 | project sync | 2026-08-28 1400 | 2026-08-28 1600", event.toStorageString());
     }
 }

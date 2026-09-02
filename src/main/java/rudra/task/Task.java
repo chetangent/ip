@@ -107,10 +107,18 @@ public class Task {
      */
     protected List<String> getStorageFields() {
         ArrayList<String> storageFields = new ArrayList<>();
-        storageFields.add(this.taskType.getDisplayCode());
-        storageFields.add(this.isDone ? "1" : "0");
-        storageFields.add(this.description);
+        addStorageFields(storageFields, this.taskType.getDisplayCode(), this.isDone ? "1" : "0", this.description);
         return storageFields;
+    }
+
+    /**
+     * Appends one or more fields to a task's storage representation.
+     *
+     * @param storageFields Fields accumulated for a task.
+     * @param fields Fields to append in storage order.
+     */
+    protected static void addStorageFields(List<String> storageFields, String... fields) {
+        storageFields.addAll(List.of(fields));
     }
 
     /**

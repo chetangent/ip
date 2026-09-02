@@ -1,4 +1,1 @@
 T | 0 | borrow book
-T | 0 | hello
-T | 0 | oi
-T | 0 | yaya

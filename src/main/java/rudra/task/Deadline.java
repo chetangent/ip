@@ -27,7 +27,7 @@ public class Deadline extends Task {
     @Override
     protected List<String> getStorageFields() {
         List<String> storageFields = super.getStorageFields();
-        storageFields.add(this.by.toStorageString());
+        addStorageFields(storageFields, this.by.toStorageString());
         return storageFields;
     }
 
