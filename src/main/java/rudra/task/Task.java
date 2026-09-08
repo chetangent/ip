@@ -19,6 +19,9 @@ public class Task {
      * @param description Description of the task.
      */
     public Task(TaskType taskType, String description) {
+        assert taskType != null : "A task must have a type";
+        assert description != null && !description.isBlank() : "A task must have a non-blank description";
+
         this.taskType = taskType;
         this.description = description;
         this.isDone = false;
@@ -93,6 +96,8 @@ public class Task {
      */
     public String toStorageString() {
         List<String> storageFields = getStorageFields();
+        assert storageFields.size() >= 3 : "Every task must provide type, status, and description fields";
+
         for (int i = 0; i < storageFields.size(); i++) {
             storageFields.set(i, escapeStorageField(storageFields.get(i)));
         }

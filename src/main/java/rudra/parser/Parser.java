@@ -80,6 +80,8 @@ public class Parser {
         if (deadlineParts.length < 2 || deadlineParts[0].isBlank() || deadlineParts[1].isBlank()) {
             throw new RudraException("Please use: deadline DESCRIPTION /by WHEN");
         }
+        assert deadlineParts.length == 2 && !deadlineParts[0].isBlank() && !deadlineParts[1].isBlank()
+                : "A validated deadline must have a description and due date";
 
         return new DeadlineCommand(deadlineParts[0], TaskDateTime.parse(deadlineParts[1]));
     }
@@ -97,6 +99,9 @@ public class Parser {
         if (eventParts.length < 3 || eventParts[0].isBlank() || eventParts[1].isBlank() || eventParts[2].isBlank()) {
             throw new RudraException("Please use: event DESCRIPTION /from START /to END");
         }
+        assert eventParts.length == 3 && !eventParts[0].isBlank()
+                && !eventParts[1].isBlank() && !eventParts[2].isBlank()
+                : "A validated event must have a description, start date, and end date";
 
         return new EventCommand(eventParts[0], TaskDateTime.parse(eventParts[1]), TaskDateTime.parse(eventParts[2]));
     }
@@ -118,6 +123,7 @@ public class Parser {
             if (taskNumber < 1) {
                 throw new RudraException("That task number is out of range.");
             }
+            assert taskNumber >= 1 : "A validated user-facing task number must be positive";
             return taskNumber - 1;
         } catch (NumberFormatException e) {
             throw new RudraException("Task numbers should be whole numbers.");

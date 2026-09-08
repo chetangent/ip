@@ -2,6 +2,7 @@ package rudra.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,28 @@ import rudra.exception.RudraException;
  * Tests for {@link Task}.
  */
 public class TaskTest {
+    @Test
+    public void constructor_missingTaskType_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Task(null, "read book"));
+    }
+
+    @Test
+    public void constructor_blankDescription_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new ToDo(" "));
+    }
+
+    @Test
+    public void deadlineConstructor_missingDueDate_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Deadline("return book", null));
+    }
+
+    @Test
+    public void eventConstructor_missingStartDate_throwsAssertionError() throws RudraException {
+        TaskDateTime endDate = TaskDateTime.parse("2026-08-28 1600");
+
+        assertThrows(AssertionError.class, () -> new Event("project sync", null, endDate));
+    }
+
     @Test
     public void matchesKeyword_descriptionContainsKeyword_returnsTrue() {
         Task task = new ToDo("return book to library");
