@@ -137,37 +137,55 @@ public class Storage {
             throw new RudraException("Saved task is missing required fields.");
         }
 
-        Task task;
+        Task task = parseTaskDetails(parts);
+        restoreTaskStatus(task, parts.get(1));
+        return task;
+    }
+
+    private Task parseTaskDetails(List<String> parts) throws RudraException {
         switch (parts.get(0)) {
             case "T":
-                if (parts.size() != 3 || parts.get(2).isBlank()) {
-                    throw new RudraException("Saved todo task is invalid.");
-                }
-                task = new ToDo(parts.get(2));
-                break;
+                return parseTodoTask(parts);
             case "D":
-                if (parts.size() != 4 || parts.get(2).isBlank() || parts.get(3).isBlank()) {
-                    throw new RudraException("Saved deadline task is invalid.");
-                }
-                task = new Deadline(parts.get(2), TaskDateTime.parse(parts.get(3)));
-                break;
+                return parseDeadlineTask(parts);
             case "E":
-                if (parts.size() != 5 || parts.get(2).isBlank() || parts.get(3).isBlank() || parts.get(4).isBlank()) {
-                    throw new RudraException("Saved event task is invalid.");
-                }
-                task = new Event(parts.get(2), TaskDateTime.parse(parts.get(3)), TaskDateTime.parse(parts.get(4)));
-                break;
+                return parseEventTask(parts);
             default:
                 throw new RudraException("Saved task type is not recognized.");
         }
+    }
 
-        if ("1".equals(parts.get(1))) {
-            task.markAsDone();
-        } else if (!"0".equals(parts.get(1))) {
-            throw new RudraException("Saved task status is invalid.");
+    private Task parseTodoTask(List<String> parts) throws RudraException {
+        if (parts.size() != 3 || parts.get(2).isBlank()) {
+            throw new RudraException("Saved todo task is invalid.");
         }
+        return new ToDo(parts.get(2));
+    }
 
-        return task;
+    private Task parseDeadlineTask(List<String> parts) throws RudraException {
+        if (parts.size() != 4 || parts.get(2).isBlank() || parts.get(3).isBlank()) {
+            throw new RudraException("Saved deadline task is invalid.");
+        }
+        return new Deadline(parts.get(2), TaskDateTime.parse(parts.get(3)));
+    }
+
+    private Task parseEventTask(List<String> parts) throws RudraException {
+        if (parts.size() != 5 || parts.get(2).isBlank() || parts.get(3).isBlank() || parts.get(4).isBlank()) {
+            throw new RudraException("Saved event task is invalid.");
+        }
+        return new Event(parts.get(2), TaskDateTime.parse(parts.get(3)), TaskDateTime.parse(parts.get(4)));
+    }
+
+    private void restoreTaskStatus(Task task, String status) throws RudraException {
+        switch (status) {
+            case "1":
+                task.markAsDone();
+                break;
+            case "0":
+                break;
+            default:
+                throw new RudraException("Saved task status is invalid.");
+        }
     }
 
     /**
