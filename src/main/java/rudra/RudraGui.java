@@ -16,7 +16,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import rudra.command.Command;
-import rudra.command.ExitCommand;
 import rudra.exception.RudraException;
 import rudra.parser.Parser;
 import rudra.storage.Storage;
@@ -152,7 +151,7 @@ public class RudraGui extends Application {
         this.pendingMessages.clear();
 
         try {
-            Command parsedCommand = Parser.isExitCommand(command) ? new ExitCommand() : Parser.parse(command);
+            Command parsedCommand = Parser.parse(command);
             parsedCommand.execute(this.tasks, this.ui, this.storage);
             if (parsedCommand.isExit()) {
                 this.commandField.setDisable(true);

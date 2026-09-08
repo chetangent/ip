@@ -3,7 +3,6 @@ package rudra;
 import java.util.ArrayList;
 
 import rudra.command.Command;
-import rudra.command.ExitCommand;
 import rudra.exception.RudraException;
 import rudra.parser.Parser;
 import rudra.storage.Storage;
@@ -33,9 +32,7 @@ public class Rudra {
             String fullCommand = ui.readCommand();
 
             try {
-                Command command = Parser.isExitCommand(fullCommand)
-                        ? new ExitCommand()
-                        : Parser.parse(fullCommand);
+                Command command = Parser.parse(fullCommand);
                 command.execute(tasks, ui, storage);
                 isExit = command.isExit();
             } catch (RudraException e) {

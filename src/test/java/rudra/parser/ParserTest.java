@@ -1,16 +1,15 @@
 package rudra.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import rudra.command.DeadlineCommand;
 import rudra.command.DeleteCommand;
 import rudra.command.EventCommand;
+import rudra.command.ExitCommand;
 import rudra.command.FindCommand;
 import rudra.command.ListCommand;
 import rudra.command.MarkCommand;
@@ -22,6 +21,16 @@ import rudra.exception.RudraException;
  * Tests for {@link Parser}.
  */
 public class ParserTest {
+    @Test
+    public void parse_byeCommand_returnsExitCommand() throws RudraException {
+        assertInstanceOf(ExitCommand.class, Parser.parse("bye"));
+    }
+
+    @Test
+    public void parse_byeCommandWithArguments_throwsRudraException() {
+        assertThrows(RudraException.class, () -> Parser.parse("bye now"));
+    }
+
     @Test
     public void parse_listCommand_returnsListCommand() throws RudraException {
         assertInstanceOf(ListCommand.class, Parser.parse("list"));
@@ -113,15 +122,5 @@ public class ParserTest {
         RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("delete 0"));
 
         assertEquals("That task number is out of range.", exception.getMessage());
-    }
-
-    @Test
-    public void isExitCommand_bye_returnsTrue() {
-        assertTrue(Parser.isExitCommand("bye"));
-    }
-
-    @Test
-    public void isExitCommand_otherCommand_returnsFalse() {
-        assertFalse(Parser.isExitCommand("list"));
     }
 }

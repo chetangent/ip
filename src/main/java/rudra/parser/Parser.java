@@ -4,6 +4,7 @@ import rudra.command.Command;
 import rudra.command.DeadlineCommand;
 import rudra.command.DeleteCommand;
 import rudra.command.EventCommand;
+import rudra.command.ExitCommand;
 import rudra.command.FindCommand;
 import rudra.command.ListCommand;
 import rudra.command.MarkCommand;
@@ -30,6 +31,11 @@ public class Parser {
                         + " or find."));
 
         switch (commandWord) {
+            case BYE:
+                if (parts.length == 1) {
+                    return new ExitCommand();
+                }
+                break;
             case LIST:
                 if (parts.length == 1) {
                     return new ListCommand();
@@ -55,16 +61,6 @@ public class Parser {
 
         throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark,"
                 + " delete, or find.");
-    }
-
-    /**
-     * Parses the exit command without going through the command-word enum.
-     *
-     * @param fullCommand Raw command line entered by the user.
-     * @return True if the command should exit the chatbot.
-     */
-    public static boolean isExitCommand(String fullCommand) {
-        return "bye".equals(fullCommand);
     }
 
     /**
