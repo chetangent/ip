@@ -39,11 +39,20 @@ public abstract class Command {
      * @throws RudraException If saving fails.
      */
     protected void addTask(ArrayList<Task> tasks, Task task, Storage storage) throws RudraException {
+        assert tasks != null : "The task list must be initialized before executing a command";
+        assert task != null : "Only a constructed task can be added";
+        assert storage != null : "Storage must be initialized before executing a command";
+
+        int originalTaskCount = tasks.size();
         tasks.add(task);
+        assert tasks.size() == originalTaskCount + 1 && tasks.get(originalTaskCount) == task
+                : "Adding a task must append exactly that task";
+
         try {
             storage.saveTasks(tasks);
         } catch (RudraException e) {
             tasks.remove(tasks.size() - 1);
+            assert tasks.size() == originalTaskCount : "A failed save must roll back the added task";
             throw new RudraException(e.getMessage() + " Your task list was left unchanged.");
         }
     }
@@ -59,6 +68,10 @@ public abstract class Command {
      */
     protected void updateTaskStatus(ArrayList<Task> tasks, int taskIndex, Storage storage, boolean shouldMarkAsDone)
             throws RudraException {
+        assert tasks != null : "The task list must be initialized before executing a command";
+        assert taskIndex >= 0 && taskIndex < tasks.size() : "A validated task index must refer to an existing task";
+        assert storage != null : "Storage must be initialized before executing a command";
+
         Task task = tasks.get(taskIndex);
         boolean wasDone = task.isDone();
 
@@ -67,6 +80,7 @@ public abstract class Command {
         } else {
             task.markAsNotDone();
         }
+        assert task.isDone() == shouldMarkAsDone : "The task status must match the requested update";
 
         try {
             storage.saveTasks(tasks);
@@ -76,6 +90,7 @@ public abstract class Command {
             } else {
                 task.markAsNotDone();
             }
+            assert task.isDone() == wasDone : "A failed save must restore the original task status";
             throw new RudraException(e.getMessage() + " Your task list was left unchanged.");
         }
     }
@@ -90,13 +105,21 @@ public abstract class Command {
      * @throws RudraException If saving fails.
      */
     protected Task deleteTask(ArrayList<Task> tasks, int taskIndex, Storage storage) throws RudraException {
+        assert tasks != null : "The task list must be initialized before executing a command";
+        assert taskIndex >= 0 && taskIndex < tasks.size() : "A validated task index must refer to an existing task";
+        assert storage != null : "Storage must be initialized before executing a command";
+
+        int originalTaskCount = tasks.size();
         Task removedTask = tasks.remove(taskIndex);
+        assert tasks.size() == originalTaskCount - 1 : "Deleting a task must remove exactly one task";
 
         try {
             storage.saveTasks(tasks);
             return removedTask;
         } catch (RudraException e) {
             tasks.add(taskIndex, removedTask);
+            assert tasks.size() == originalTaskCount && tasks.get(taskIndex) == removedTask
+                    : "A failed save must restore the deleted task at its original position";
             throw new RudraException(e.getMessage() + " Your task list was left unchanged.");
         }
     }

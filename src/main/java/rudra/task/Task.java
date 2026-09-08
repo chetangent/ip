@@ -20,6 +20,9 @@ public class Task {
      * @param description Description of the task.
      */
     public Task(TaskType taskType, String description) {
+        assert taskType != null : "A task must have a type";
+        assert description != null && !description.isBlank() : "A task must have a non-blank description";
+
         this.taskType = taskType;
         this.description = description;
         this.isDone = false;
@@ -93,7 +96,10 @@ public class Task {
      * @return Text representation suitable for saving to disk.
      */
     public String toStorageString() {
-        return getStorageFields().stream()
+        List<String> storageFields = getStorageFields();
+        assert storageFields.size() >= 3 : "Every task must provide type, status, and description fields";
+
+        return storageFields.stream()
                 .map(Task::escapeStorageField)
                 .collect(Collectors.joining(" | "));
     }

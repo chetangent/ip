@@ -52,6 +52,18 @@ public class TaskDateTimeTest {
     }
 
     @Test
+    public void constructor_missingValue_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new TaskDateTime(null, true));
+    }
+
+    @Test
+    public void constructor_dateWithoutTimeButNonMidnightValue_throwsAssertionError() {
+        LocalDateTime nonMidnightValue = LocalDateTime.of(2026, 8, 28, 17, 45);
+
+        assertThrows(AssertionError.class, () -> new TaskDateTime(nonMidnightValue, false));
+    }
+
+    @Test
     public void toStorageString_dateWithoutTime_returnsDateOnlyString() {
         TaskDateTime taskDateTime = new TaskDateTime(LocalDateTime.of(2026, 8, 28, 0, 0), false);
 

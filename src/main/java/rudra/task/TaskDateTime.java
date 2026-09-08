@@ -2,6 +2,7 @@ package rudra.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -29,6 +30,10 @@ public class TaskDateTime {
      * @param hasTime Whether the original input included a time component.
      */
     public TaskDateTime(LocalDateTime value, boolean hasTime) {
+        assert value != null : "A task date-time must have a value";
+        assert hasTime || value.toLocalTime().equals(LocalTime.MIDNIGHT)
+                : "A date without a time must be stored at midnight";
+
         this.value = value;
         this.hasTime = hasTime;
     }
