@@ -3,6 +3,7 @@ package rudra.task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Represents a task with a description and completion status.
@@ -98,11 +99,9 @@ public class Task {
         List<String> storageFields = getStorageFields();
         assert storageFields.size() >= 3 : "Every task must provide type, status, and description fields";
 
-        for (int i = 0; i < storageFields.size(); i++) {
-            storageFields.set(i, escapeStorageField(storageFields.get(i)));
-        }
-
-        return String.join(" | ", storageFields);
+        return storageFields.stream()
+                .map(Task::escapeStorageField)
+                .collect(Collectors.joining(" | "));
     }
 
     /**
