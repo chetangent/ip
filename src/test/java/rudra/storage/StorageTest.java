@@ -94,4 +94,23 @@ public class StorageTest {
                 loadResult.getTasks().stream().map(Task::toString).toList());
         assertEquals(2, loadResult.getSkippedTaskCount());
     }
+
+    @Test
+    public void loadTasks_malformedTaskDetails_skipsEachInvalidTaskType() throws IOException, RudraException {
+        Path saveFile = tempDir.resolve("tasks.txt");
+        Files.writeString(saveFile,
+                String.join(System.lineSeparator(),
+                        "T | 0 | ",
+                        "D | 0 | return book",
+                        "E | 0 | project meeting | 2026-08-28 1400",
+                        "T | 0 | read book")
+                        + System.lineSeparator());
+        Storage storage = new Storage(saveFile.toString());
+
+        Storage.LoadResult loadResult = storage.loadTasks();
+
+        assertEquals(List.of("[T][ ] read book"),
+                loadResult.getTasks().stream().map(Task::toString).toList());
+        assertEquals(3, loadResult.getSkippedTaskCount());
+    }
 }

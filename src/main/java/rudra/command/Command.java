@@ -1,6 +1,7 @@
 package rudra.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rudra.exception.RudraException;
 import rudra.storage.Storage;
@@ -28,6 +29,19 @@ public abstract class Command {
      */
     public boolean isExit() {
         return false;
+    }
+
+    /**
+     * Ensures that a task index refers to an existing task.
+     *
+     * @param tasks Current task list.
+     * @param taskIndex Zero-based index to validate.
+     * @throws RudraException If the index is outside the task list.
+     */
+    protected void validateTaskIndex(List<Task> tasks, int taskIndex) throws RudraException {
+        if (taskIndex >= tasks.size()) {
+            throw new RudraException("That task number is out of range.");
+        }
     }
 
     /**

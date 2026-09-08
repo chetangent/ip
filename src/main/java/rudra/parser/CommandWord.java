@@ -6,6 +6,7 @@ import java.util.Optional;
  * Identifies the supported top-level command words.
  */
 public enum CommandWord {
+    BYE("bye"),
     LIST("list"),
     MARK("mark"),
     UNMARK("unmark"),
