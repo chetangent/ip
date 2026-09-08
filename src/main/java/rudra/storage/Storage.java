@@ -34,6 +34,9 @@ public class Storage {
          * @param skippedTaskCount Number of corrupted saved lines ignored during loading.
          */
         public LoadResult(ArrayList<Task> tasks, int skippedTaskCount) {
+            assert tasks != null : "A load result must contain an initialized task list";
+            assert skippedTaskCount >= 0 : "The skipped task count cannot be negative";
+
             this.tasks = tasks;
             this.skippedTaskCount = skippedTaskCount;
         }
@@ -63,6 +66,8 @@ public class Storage {
      * @param relativeFilePath Relative path of the save file from the project root.
      */
     public Storage(String relativeFilePath) {
+        assert relativeFilePath != null && !relativeFilePath.isBlank() : "Storage must have a file path";
+
         this.filePath = Path.of(relativeFilePath);
     }
 
@@ -72,6 +77,9 @@ public class Storage {
      * @param tasks Current task list to save.
      */
     public void saveTasks(List<Task> tasks) throws RudraException {
+        assert tasks != null : "The task list must be initialized before it can be saved";
+        assert tasks.stream().allMatch(task -> task != null) : "The task list cannot contain null entries";
+
         try {
             Path parentDirectory = this.filePath.getParent();
             if (parentDirectory != null) {
@@ -139,6 +147,7 @@ public class Storage {
 
         Task task = parseTaskDetails(parts);
         restoreTaskStatus(task, parts.get(1));
+        assert task != null : "A recognized saved task type must produce a task";
         return task;
     }
 

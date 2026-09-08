@@ -1,10 +1,12 @@
 package rudra.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,11 @@ import rudra.task.ToDo;
 public class StorageTest {
     @TempDir
     Path tempDir;
+
+    @Test
+    public void loadResult_negativeSkippedTaskCount_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Storage.LoadResult(new ArrayList<>(), -1));
+    }
 
     @Test
     public void loadTasks_missingFile_returnsEmptyResult() throws RudraException {
