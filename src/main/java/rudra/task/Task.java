@@ -3,6 +3,7 @@ package rudra.task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Represents a task with a description and completion status.
@@ -92,12 +93,9 @@ public class Task {
      * @return Text representation suitable for saving to disk.
      */
     public String toStorageString() {
-        List<String> storageFields = getStorageFields();
-        for (int i = 0; i < storageFields.size(); i++) {
-            storageFields.set(i, escapeStorageField(storageFields.get(i)));
-        }
-
-        return String.join(" | ", storageFields);
+        return getStorageFields().stream()
+                .map(Task::escapeStorageField)
+                .collect(Collectors.joining(" | "));
     }
 
     /**
