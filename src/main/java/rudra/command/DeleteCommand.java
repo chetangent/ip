@@ -32,20 +32,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui, Storage storage) throws RudraException {
-        validateTaskIndex(tasks);
+        validateTaskIndex(tasks, this.taskIndex);
         Task removedTask = deleteTask(tasks, this.taskIndex, storage);
         ui.showTaskDeleted(removedTask, tasks.size());
-    }
-
-    /**
-     * Ensures the command refers to an existing task before deletion.
-     *
-     * @param tasks Current task list.
-     * @throws RudraException If the requested index is outside the list.
-     */
-    private void validateTaskIndex(ArrayList<Task> tasks) throws RudraException {
-        if (this.taskIndex >= tasks.size()) {
-            throw new RudraException("That task number is out of range.");
-        }
     }
 }
