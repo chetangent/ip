@@ -13,6 +13,7 @@ import rudra.command.ExitCommand;
 import rudra.command.FindCommand;
 import rudra.command.ListCommand;
 import rudra.command.MarkCommand;
+import rudra.command.SortCommand;
 import rudra.command.TodoCommand;
 import rudra.command.UnmarkCommand;
 import rudra.exception.RudraException;
@@ -73,11 +74,16 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_sortDeadlineCommand_returnsSortCommand() throws RudraException {
+        assertInstanceOf(SortCommand.class, Parser.parse("sort deadline"));
+    }
+
+    @Test
     public void parse_unknownCommand_throwsRudraException() {
         RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("blah"));
 
         assertEquals("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete,"
-                + " or find.",
+                + " find, or sort.",
                 exception.getMessage());
     }
 
@@ -108,6 +114,20 @@ public class ParserTest {
         RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("find"));
 
         assertEquals("The keyword for find cannot be empty.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_missingSortCriterion_throwsRudraException() {
+        RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("sort"));
+
+        assertEquals("Please use: sort deadline", exception.getMessage());
+    }
+
+    @Test
+    public void parse_sortCommandWithExtraArgument_throwsRudraException() {
+        RudraException exception = assertThrows(RudraException.class, () -> Parser.parse("sort deadline desc"));
+
+        assertEquals("Please use: sort deadline", exception.getMessage());
     }
 
     @Test

@@ -2,6 +2,7 @@ package rudra.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 
@@ -89,5 +90,16 @@ public class TaskDateTimeTest {
         TaskDateTime taskDateTime = new TaskDateTime(LocalDateTime.of(2026, 8, 28, 17, 45), true);
 
         assertEquals("Aug 28 2026 5:45pm", taskDateTime.toDisplayString());
+    }
+
+    @Test
+    public void compareTo_differentAndEqualValues_returnsChronologicalOrder() throws RudraException {
+        TaskDateTime earlier = TaskDateTime.parse("2026-08-27 2359");
+        TaskDateTime dateOnly = TaskDateTime.parse("2026-08-28");
+        TaskDateTime explicitMidnight = TaskDateTime.parse("2026-08-28 0000");
+
+        assertTrue(earlier.compareTo(dateOnly) < 0);
+        assertTrue(dateOnly.compareTo(earlier) > 0);
+        assertEquals(0, dateOnly.compareTo(explicitMidnight));
     }
 }

@@ -80,7 +80,7 @@ public class RudraGui extends Application {
         Label guide = new Label("todo buy milk\n"
                 + "deadline submit report /by 2026-09-10\n"
                 + "event team sync /from 2026-09-08 1400 /to 2026-09-08 1500\n"
-                + "list, find KEYWORD, mark NUMBER");
+                + "list, find KEYWORD, sort deadline, mark NUMBER");
         guide.setWrapText(true);
         guide.getStyleClass().add("guide");
 
@@ -200,6 +200,7 @@ public class RudraGui extends Application {
                 + "event DESCRIPTION /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm\n"
                 + "list\n"
                 + "find KEYWORD\n"
+                + "sort deadline\n"
                 + "mark NUMBER\n"
                 + "unmark NUMBER\n"
                 + "delete NUMBER\n"

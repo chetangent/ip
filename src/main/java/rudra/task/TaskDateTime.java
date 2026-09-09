@@ -11,7 +11,7 @@ import rudra.exception.RudraException;
 /**
  * Represents a task date or date-time value in parsed form.
  */
-public class TaskDateTime {
+public class TaskDateTime implements Comparable<TaskDateTime> {
     private static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATE_TIME_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter DATE_TIME_INPUT_WITH_COLON_FORMATTER =
@@ -84,5 +84,16 @@ public class TaskDateTime {
             return this.value.format(DATE_TIME_DISPLAY_FORMATTER);
         }
         return this.value.toLocalDate().format(DATE_DISPLAY_FORMATTER);
+    }
+
+    /**
+     * Compares this value chronologically with another task date-time.
+     *
+     * @param other Date-time to compare with this value.
+     * @return A negative value, zero, or a positive value when this value is earlier, equal, or later.
+     */
+    @Override
+    public int compareTo(TaskDateTime other) {
+        return this.value.compareTo(other.value);
     }
 }

@@ -87,6 +87,16 @@ public class Ui {
     }
 
     /**
+     * Prints confirmation that deadlines were sorted, followed by the updated task list.
+     *
+     * @param tasks Tasks in their updated order.
+     */
+    public void showTasksSorted(List<Task> tasks) {
+        show("I've sorted your deadlines from earliest to latest.");
+        showTaskList(tasks);
+    }
+
+    /**
      * Prints the tasks whose descriptions match a search keyword.
      *
      * @param matchingTasks Matching tasks to display.

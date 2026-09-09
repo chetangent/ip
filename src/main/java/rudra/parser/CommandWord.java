@@ -12,6 +12,7 @@ public enum CommandWord {
     UNMARK("unmark"),
     DELETE("delete"),
     FIND("find"),
+    SORT("sort"),
     TODO("todo"),
     DEADLINE("deadline"),
     EVENT("event");

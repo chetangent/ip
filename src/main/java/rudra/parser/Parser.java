@@ -8,6 +8,7 @@ import rudra.command.ExitCommand;
 import rudra.command.FindCommand;
 import rudra.command.ListCommand;
 import rudra.command.MarkCommand;
+import rudra.command.SortCommand;
 import rudra.command.TodoCommand;
 import rudra.command.UnmarkCommand;
 import rudra.exception.RudraException;
@@ -28,7 +29,7 @@ public class Parser {
         String[] parts = fullCommand.split(" ", 2);
         CommandWord commandWord = CommandWord.from(parts[0]).orElseThrow(() -> new RudraException(
                 "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete,"
-                        + " or find."));
+                        + " find, or sort."));
 
         switch (commandWord) {
             case BYE:
@@ -49,6 +50,8 @@ public class Parser {
                 return new DeleteCommand(parseTaskNumber(parts));
             case FIND:
                 return new FindCommand(requireKeyword(parts));
+            case SORT:
+                return parseSortCommand(parts);
             case TODO:
                 return new TodoCommand(requireDescription(parts, "todo"));
             case DEADLINE:
@@ -60,7 +63,22 @@ public class Parser {
         }
 
         throw new RudraException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark,"
-                + " delete, or find.");
+                + " delete, find, or sort.");
+    }
+
+    /**
+     * Parses a command that sorts deadlines chronologically.
+     *
+     * @param parts User input split into command word and remaining text.
+     * @return Parsed sort command.
+     * @throws RudraException If the sort criterion is missing or unsupported.
+     */
+    private static Command parseSortCommand(String[] parts) throws RudraException {
+        if (parts.length == 2 && parts[1].equals("deadline")) {
+            return new SortCommand();
+        }
+
+        throw new RudraException("Please use: sort deadline");
     }
 
     /**

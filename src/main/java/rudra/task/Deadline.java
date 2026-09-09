@@ -34,6 +34,15 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the due date and time of this deadline.
+     *
+     * @return Deadline due date and time.
+     */
+    public TaskDateTime getBy() {
+        return this.by;
+    }
+
+    /**
      * Returns the user-facing text for this deadline task.
      *
      * @return Formatted deadline task description.

@@ -187,7 +187,7 @@ ____________________________________________________________
 Hello! I'm Rudra.
 What can I do for you?
 ____________________________________________________________
-I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, or find.
+I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or sort.
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
@@ -595,6 +595,68 @@ Task numbers should be whole numbers.
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] borrow book
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Sort deadlines chronologically
+Aim: Verify that sorting a mixed task list moves deadlines first in chronological order and updates task numbering.
+
+### Inputs
+```text
+todo buy milk
+deadline submit report /by 2026-10-20
+event team sync /from 2026-09-15 1400 /to 2026-09-15 1500
+deadline renew license /by 2026-09-10
+todo call Alice
+sort deadline
+mark 1
+bye
+```
+
+### Expected Output
+```text
+____________________________________________________________
+ ____            _            
+|  _ \ _   _  __| |_ __ __ _ 
+| |_) | | | |/ _` | '__/ _` |
+|  _ <| |_| | (_| | | | (_| |
+|_| \_\\__,_|\__,_|_|  \__,_|
+
+Hello! I'm Rudra.
+What can I do for you?
+____________________________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[D][ ] submit report (by: Oct 20 2026)
+Now you have 2 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[E][ ] team sync (from: Sept 15 2026 2:00pm to: Sept 15 2026 3:00pm)
+Now you have 3 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[D][ ] renew license (by: Sept 10 2026)
+Now you have 4 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+[T][ ] call Alice
+Now you have 5 tasks in the list.
+____________________________________________________________
+I've sorted your deadlines from earliest to latest.
+Here are the tasks in your list:
+1.[D][ ] renew license (by: Sept 10 2026)
+2.[D][ ] submit report (by: Oct 20 2026)
+3.[T][ ] buy milk
+4.[E][ ] team sync (from: Sept 15 2026 2:00pm to: Sept 15 2026 3:00pm)
+5.[T][ ] call Alice
+____________________________________________________________
+Nice! I've marked this task as done:
+[D][X] renew license (by: Sept 10 2026)
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
