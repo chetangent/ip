@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
+import java.util.Locale;
+import java.util.Map;
 
 import rudra.exception.RudraException;
 
@@ -12,13 +16,17 @@ import rudra.exception.RudraException;
  * Represents a task date or date-time value in parsed form.
  */
 public class TaskDateTime implements Comparable<TaskDateTime> {
+    private static final Map<Long, String> AM_PM_DISPLAY_TEXT = Map.of(0L, "am", 1L, "pm");
     private static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATE_TIME_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter DATE_TIME_INPUT_WITH_COLON_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private static final DateTimeFormatter DATE_DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MMM d yyyy");
-    private static final DateTimeFormatter DATE_TIME_DISPLAY_FORMATTER =
-            DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
+    private static final DateTimeFormatter DATE_DISPLAY_FORMATTER =
+            DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_TIME_DISPLAY_FORMATTER = new DateTimeFormatterBuilder()
+            .appendPattern("MMM d yyyy h:mm")
+            .appendText(ChronoField.AMPM_OF_DAY, AM_PM_DISPLAY_TEXT)
+            .toFormatter(Locale.ENGLISH);
 
     private final LocalDateTime value;
     private final boolean hasTime;

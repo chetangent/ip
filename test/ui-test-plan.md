@@ -636,11 +636,11 @@ Got it. I've added this task:
 Now you have 2 tasks in the list.
 ____________________________________________________________
 Got it. I've added this task:
-[E][ ] team sync (from: Sept 15 2026 2:00pm to: Sept 15 2026 3:00pm)
+[E][ ] team sync (from: Sep 15 2026 2:00pm to: Sep 15 2026 3:00pm)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 Got it. I've added this task:
-[D][ ] renew license (by: Sept 10 2026)
+[D][ ] renew license (by: Sep 10 2026)
 Now you have 4 tasks in the list.
 ____________________________________________________________
 Got it. I've added this task:
@@ -649,14 +649,14 @@ Now you have 5 tasks in the list.
 ____________________________________________________________
 I've sorted your deadlines from earliest to latest.
 Here are the tasks in your list:
-1.[D][ ] renew license (by: Sept 10 2026)
+1.[D][ ] renew license (by: Sep 10 2026)
 2.[D][ ] submit report (by: Oct 20 2026)
 3.[T][ ] buy milk
-4.[E][ ] team sync (from: Sept 15 2026 2:00pm to: Sept 15 2026 3:00pm)
+4.[E][ ] team sync (from: Sep 15 2026 2:00pm to: Sep 15 2026 3:00pm)
 5.[T][ ] call Alice
 ____________________________________________________________
 Nice! I've marked this task as done:
-[D][X] renew license (by: Sept 10 2026)
+[D][X] renew license (by: Sep 10 2026)
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________

@@ -54,12 +54,12 @@ public class SortCommandTest {
         assertEquals(List.of(
                 "I've sorted your deadlines from earliest to latest.",
                 "Here are the tasks in your list:",
-                "1.[D][ ] pay bill (by: Sept 5 2026)",
-                "2.[D][ ] deploy release (by: Sept 10 2026 12:00am)",
-                "3.[D][X] renew license (by: Sept 10 2026)",
-                "4.[D][ ] submit report (by: Sept 20 2026)",
+                "1.[D][ ] pay bill (by: Sep 5 2026)",
+                "2.[D][ ] deploy release (by: Sep 10 2026 12:00am)",
+                "3.[D][X] renew license (by: Sep 10 2026)",
+                "4.[D][ ] submit report (by: Sep 20 2026)",
                 "5.[T][ ] buy milk",
-                "6.[E][ ] team sync (from: Sept 15 2026 2:00pm to: Sept 15 2026 3:00pm)",
+                "6.[E][ ] team sync (from: Sep 15 2026 2:00pm to: Sep 15 2026 3:00pm)",
                 "7.[T][ ] call Alice",
                 "____________________________________________________________"), messages);
 
