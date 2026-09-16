@@ -44,8 +44,8 @@ public class Ui {
     public void showWelcome() {
         show(LINE);
         show(BANNER);
-        show("Hello! I'm Rudra.");
-        show("What can I do for you?");
+        show("Yo! Rudra's online.");
+        show("What are we getting done today?");
         show(LINE);
     }
 
@@ -71,7 +71,7 @@ public class Ui {
      * Prints the farewell message shown when the chatbot exits.
      */
     public void showGoodbye() {
-        show("Bye. Hope to see you again soon!");
+        show("Catch you on the flip side! Rudra signing off.");
         show(LINE);
     }
 
@@ -81,7 +81,7 @@ public class Ui {
      * @param tasks Tasks to display.
      */
     public void showTaskList(List<Task> tasks) {
-        show("Here are the tasks in your list:");
+        show("Here's what's on your radar:");
         printTaskCollection(tasks);
         show(LINE);
     }
@@ -92,7 +92,7 @@ public class Ui {
      * @param tasks Tasks in their updated order.
      */
     public void showTasksSorted(List<Task> tasks) {
-        show("I've sorted your deadlines from earliest to latest.");
+        show("All set - your deadlines now run from earliest to latest.");
         showTaskList(tasks);
     }
 
@@ -103,12 +103,12 @@ public class Ui {
      */
     public void showMatchingTasks(List<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
-            show("I couldn't find any matching tasks.");
+            show("No matches on the radar, homie.");
             show(LINE);
             return;
         }
 
-        show("Here are the matching tasks in your list:");
+        show("Here are the matches I found:");
         printTaskCollection(matchingTasks);
         show(LINE);
     }
@@ -126,9 +126,9 @@ public class Ui {
      * @param updatedTaskCount Task count after the addition.
      */
     public void showTaskAdded(Task task, int updatedTaskCount) {
-        show("Got it. I've added this task:");
+        show("You got it, homie - task locked in!");
         show(task.toString());
-        show("Now you have " + updatedTaskCount + " tasks in the list.");
+        showTaskCount(updatedTaskCount);
         show(LINE);
     }
 
@@ -138,7 +138,7 @@ public class Ui {
      * @param task Updated task.
      */
     public void showTaskMarked(Task task) {
-        show("Nice! I've marked this task as done:");
+        show("Let's gooo! Another one handled:");
         show(task.toString());
         show(LINE);
     }
@@ -149,7 +149,7 @@ public class Ui {
      * @param task Updated task.
      */
     public void showTaskUnmarked(Task task) {
-        show("OK, I've marked this task as not done yet:");
+        show("No stress - this task is back in play:");
         show(task.toString());
         show(LINE);
     }
@@ -161,9 +161,9 @@ public class Ui {
      * @param updatedTaskCount Task count after the deletion.
      */
     public void showTaskDeleted(Task removedTask, int updatedTaskCount) {
-        show("Noted. I've removed this task:");
+        show("Poof! This task is outta here:");
         show(removedTask.toString());
-        show("Now you have " + updatedTaskCount + " tasks in the list.");
+        showTaskCount(updatedTaskCount);
         show(LINE);
     }
 
@@ -173,7 +173,7 @@ public class Ui {
      * @param message Error message to display.
      */
     public void showError(String message) {
-        show(message);
+        show("Whoa! " + message);
         show(LINE);
     }
 
@@ -183,7 +183,7 @@ public class Ui {
      * @param skippedTaskCount Number of skipped tasks.
      */
     public void showCorruptedTaskWarning(int skippedTaskCount) {
-        show("Warning: I skipped " + skippedTaskCount + " corrupted saved task(s).");
+        show("Heads up! I skipped " + skippedTaskCount + " corrupted saved task(s).");
         show(LINE);
     }
 
@@ -194,8 +194,13 @@ public class Ui {
      */
     public void showLoadingError(String message) {
         show(message);
-        show("I'm starting with an empty task list instead.");
+        show("No stress - I'm starting with an empty task list instead.");
         show(LINE);
+    }
+
+    private void showTaskCount(int taskCount) {
+        String taskLabel = taskCount == 1 ? "task" : "tasks";
+        show("Your radar now has " + taskCount + " " + taskLabel + ".");
     }
 
     private void show(String message) {

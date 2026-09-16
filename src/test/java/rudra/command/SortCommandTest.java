@@ -52,8 +52,8 @@ public class SortCommandTest {
         assertSame(midnightDeadline, tasks.get(1));
         assertSame(dateOnlyDeadline, tasks.get(2));
         assertEquals(List.of(
-                "I've sorted your deadlines from earliest to latest.",
-                "Here are the tasks in your list:",
+                "All set - your deadlines now run from earliest to latest.",
+                "Here's what's on your radar:",
                 "1.[D][ ] pay bill (by: Sep 5 2026)",
                 "2.[D][ ] deploy release (by: Sep 10 2026 12:00am)",
                 "3.[D][X] renew license (by: Sep 10 2026)",

@@ -19,10 +19,10 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -45,17 +45,17 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] borrow book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] borrow book
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -81,29 +81,29 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] read book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [D][ ] return book (by: Jun 6 2026)
-Now you have 2 tasks in the list.
+Your radar now has 2 tasks.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] submit assignment
-Now you have 3 tasks in the list.
+Your radar now has 3 tasks.
 ____________________________________________________________
-Nice! I've marked this task as done:
+Let's gooo! Another one handled:
 [T][X] read book
 ____________________________________________________________
-Here are the matching tasks in your list:
+Here are the matches I found:
 1.[T][X] read book
 2.[D][ ] return book (by: Jun 6 2026)
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -126,16 +126,16 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] read book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-I couldn't find any matching tasks.
+No matches on the radar, homie.
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -157,12 +157,12 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-The description of a todo cannot be empty.
+Whoa! The description of a todo cannot be empty.
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -184,12 +184,12 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or sort.
+Whoa! I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, find, or sort.
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -213,19 +213,19 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] borrow book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Task numbers should be whole numbers.
+Whoa! Task numbers should be whole numbers.
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] borrow book
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -250,23 +250,23 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] borrow book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Nice! I've marked this task as done:
+Let's gooo! Another one handled:
 [T][X] borrow book
 ____________________________________________________________
-OK, I've marked this task as not done yet:
+No stress - this task is back in play:
 [T][ ] borrow book
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] borrow book
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -295,15 +295,15 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][X] read book
 2.[D][ ] return book (by: Jun 6 2026)
 3.[E][ ] project meeting (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -332,15 +332,15 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] revise | review notes
 2.[D][X] return | renew book (by: Jun 6 2026)
 3.[E][ ] project | sync (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -370,15 +370,15 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Warning: I skipped 3 corrupted saved task(s).
+Heads up! I skipped 3 corrupted saved task(s).
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] keep me
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -408,17 +408,17 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
 I couldn't read the saved tasks from data/rudra.txt.
-I'm starting with an empty task list instead.
+No stress - I'm starting with an empty task list instead.
 ____________________________________________________________
-I couldn't save your tasks to data/rudra.txt. Your task list was left unchanged.
+Whoa! I couldn't save your tasks to data/rudra.txt. Your task list was left unchanged.
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -440,12 +440,12 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Please use: deadline DESCRIPTION /by WHEN
+Whoa! Please use: deadline DESCRIPTION /by WHEN
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -469,22 +469,22 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [D][ ] return book (by: Dec 2 2026)
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [E][ ] project meeting (from: Dec 2 2026 2:00pm to: Dec 2 2026 4:00pm)
-Now you have 2 tasks in the list.
+Your radar now has 2 tasks.
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[D][ ] return book (by: Dec 2 2026)
 2.[E][ ] project meeting (from: Dec 2 2026 2:00pm to: Dec 2 2026 4:00pm)
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -506,12 +506,12 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Please enter dates as yyyy-mm-dd or yyyy-mm-dd HHmm.
+Whoa! Please enter dates as yyyy-mm-dd or yyyy-mm-dd HHmm.
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -537,30 +537,30 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] read book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [D][ ] return book (by: Jun 6 2026)
-Now you have 2 tasks in the list.
+Your radar now has 2 tasks.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [E][ ] project meeting (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
-Now you have 3 tasks in the list.
+Your radar now has 3 tasks.
 ____________________________________________________________
-Noted. I've removed this task:
+Poof! This task is outta here:
 [D][ ] return book (by: Jun 6 2026)
-Now you have 2 tasks in the list.
+Your radar now has 2 tasks.
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] read book
 2.[E][ ] project meeting (from: Aug 6 2026 2:00pm to: Aug 6 2026 4:00pm)
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -584,19 +584,19 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] borrow book
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Task numbers should be whole numbers.
+Whoa! Task numbers should be whole numbers.
 ____________________________________________________________
-Here are the tasks in your list:
+Here's what's on your radar:
 1.[T][ ] borrow book
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```
 
@@ -624,40 +624,40 @@ ____________________________________________________________
 |  _ <| |_| | (_| | | | (_| |
 |_| \_\\__,_|\__,_|_|  \__,_|
 
-Hello! I'm Rudra.
-What can I do for you?
+Yo! Rudra's online.
+What are we getting done today?
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] buy milk
-Now you have 1 tasks in the list.
+Your radar now has 1 task.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [D][ ] submit report (by: Oct 20 2026)
-Now you have 2 tasks in the list.
+Your radar now has 2 tasks.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [E][ ] team sync (from: Sep 15 2026 2:00pm to: Sep 15 2026 3:00pm)
-Now you have 3 tasks in the list.
+Your radar now has 3 tasks.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [D][ ] renew license (by: Sep 10 2026)
-Now you have 4 tasks in the list.
+Your radar now has 4 tasks.
 ____________________________________________________________
-Got it. I've added this task:
+You got it, homie - task locked in!
 [T][ ] call Alice
-Now you have 5 tasks in the list.
+Your radar now has 5 tasks.
 ____________________________________________________________
-I've sorted your deadlines from earliest to latest.
-Here are the tasks in your list:
+All set - your deadlines now run from earliest to latest.
+Here's what's on your radar:
 1.[D][ ] renew license (by: Sep 10 2026)
 2.[D][ ] submit report (by: Oct 20 2026)
 3.[T][ ] buy milk
 4.[E][ ] team sync (from: Sep 15 2026 2:00pm to: Sep 15 2026 3:00pm)
 5.[T][ ] call Alice
 ____________________________________________________________
-Nice! I've marked this task as done:
+Let's gooo! Another one handled:
 [D][X] renew license (by: Sep 10 2026)
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you on the flip side! Rudra signing off.
 ____________________________________________________________
 ```

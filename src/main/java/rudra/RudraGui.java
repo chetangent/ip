@@ -58,7 +58,7 @@ public class RudraGui extends Application {
 
         Scene scene = new Scene(root, 800, 680);
         scene.getStylesheets().add(getClass().getResource("/rudra/ui/rudra.css").toExternalForm());
-        stage.setTitle("Rudra | Task companion");
+        stage.setTitle("Rudra // Y2K Task Sidekick");
         stage.setMinWidth(520);
         stage.setMinHeight(480);
         stage.setResizable(true);
@@ -71,9 +71,11 @@ public class RudraGui extends Application {
     }
 
     private HBox createHeader() {
+        Label brandMark = new Label("R");
+        brandMark.getStyleClass().add("brand-mark");
         Label brand = new Label("RUDRA");
         brand.getStyleClass().add("brand");
-        Label subtitle = new Label("Task companion");
+        Label subtitle = new Label("YOUR Y2K TASK SIDEKICK");
         subtitle.getStyleClass().add("subtitle");
         VBox identity = new VBox(0, brand, subtitle);
 
@@ -83,22 +85,22 @@ public class RudraGui extends Application {
         this.taskCountLabel = new Label();
         this.taskCountLabel.getStyleClass().add("task-count");
 
-        HBox header = new HBox(16, identity, spacer, this.taskCountLabel);
+        HBox header = new HBox(12, brandMark, identity, spacer, this.taskCountLabel);
         header.setAlignment(Pos.CENTER_LEFT);
         header.getStyleClass().add("app-header");
         return header;
     }
 
     private VBox createChatPane() {
-        Label title = new Label("Your tasks, one message at a time");
+        Label title = new Label("What's on your radar?");
         title.getStyleClass().add("conversation-title");
-        Label hint = new Label("Changes are saved automatically.");
+        Label hint = new Label("Rudra keeps every move saved automatically.");
         hint.getStyleClass().add("conversation-hint");
 
         VBox headingText = new VBox(2, title, hint);
         Region headingSpacer = new Region();
         HBox.setHgrow(headingSpacer, Priority.ALWAYS);
-        Button showTasksButton = new Button("View tasks");
+        Button showTasksButton = new Button("Show my list");
         showTasksButton.getStyleClass().add("secondary-button");
         showTasksButton.setOnAction(event -> submitCommand("list"));
         HBox heading = new HBox(12, headingText, headingSpacer, showTasksButton);
@@ -115,12 +117,12 @@ public class RudraGui extends Application {
         VBox.setVgrow(this.conversationScrollPane, Priority.ALWAYS);
 
         this.commandField = new TextField();
-        this.commandField.setPromptText("Enter a command, e.g. todo read chapter 4");
+        this.commandField.setPromptText("Drop a command, e.g. todo read chapter 4");
         this.commandField.setAccessibleHelp("Enter a Rudra command");
         this.commandField.setOnAction(event -> submitCommand(this.commandField.getText()));
         HBox.setHgrow(this.commandField, Priority.ALWAYS);
 
-        this.sendButton = new Button("Send");
+        this.sendButton = new Button("Lock it in");
         this.sendButton.getStyleClass().add("send-button");
         this.sendButton.setDisable(true);
         this.commandField.textProperty().addListener((observable, oldValue, newValue) ->
@@ -142,7 +144,7 @@ public class RudraGui extends Application {
         guide.setWrapText(true);
         guide.getStyleClass().add("guide");
 
-        TitledPane commandGuide = new TitledPane("Command help", guide);
+        TitledPane commandGuide = new TitledPane("Need the cheat codes?", guide);
         commandGuide.setExpanded(false);
         commandGuide.setAnimated(false);
         commandGuide.getStyleClass().add("command-guide");
@@ -238,8 +240,8 @@ public class RudraGui extends Application {
     }
 
     private String createWelcomeMessage() {
-        return "Welcome! Tell me what you need to remember, or open Command help for the full list.\n"
-                + "Try: deadline submit report /by 2026-09-10";
+        return "Yo! Rudra's online. What are we getting done today?\n"
+                + "Try: deadline submit report /by 2026-09-10 - or open the cheat codes above.";
     }
 
     private void updateTaskCount() {
@@ -247,10 +249,10 @@ public class RudraGui extends Application {
     }
 
     private enum MessageType {
-        BOT("RUDRA"),
-        ERROR("COMMAND ERROR"),
+        BOT("RUDRA // ONLINE"),
+        ERROR("WHOA // COMMAND ERROR"),
         USER("YOU"),
-        WARNING("NOTICE");
+        WARNING("HEADS UP");
 
         private final String heading;
 

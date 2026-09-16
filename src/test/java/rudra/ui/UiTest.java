@@ -21,9 +21,32 @@ public class UiTest {
         ui.showTaskAdded(new ToDo("read chapter 4"), 1);
 
         assertEquals(List.of(
-                "Got it. I've added this task:",
+                "You got it, homie - task locked in!",
                 "[T][ ] read chapter 4",
-                "Now you have 1 tasks in the list.",
+                "Your radar now has 1 task.",
+                "____________________________________________________________"), messages);
+    }
+
+    @Test
+    public void showWelcome_customOutput_receivesRudraGreeting() {
+        List<String> messages = new ArrayList<>();
+        Ui ui = new Ui(messages::add);
+
+        ui.showWelcome();
+
+        assertEquals("Yo! Rudra's online.", messages.get(2));
+        assertEquals("What are we getting done today?", messages.get(3));
+    }
+
+    @Test
+    public void showError_customOutput_keepsGuidanceClearAndInCharacter() {
+        List<String> messages = new ArrayList<>();
+        Ui ui = new Ui(messages::add);
+
+        ui.showError("Please include a task number.");
+
+        assertEquals(List.of(
+                "Whoa! Please include a task number.",
                 "____________________________________________________________"), messages);
     }
 }
