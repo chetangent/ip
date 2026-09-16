@@ -1,69 +1,99 @@
 .app-shell {
-    -fx-background-color: #f4f0e8;
-    -fx-font-family: "Avenir Next", "Gill Sans", sans-serif;
+    -fx-background-color: #f7f5f0;
+    -fx-font-family: "Avenir Next", "Segoe UI", sans-serif;
 }
 
-.sidebar {
+.app-header {
     -fx-background-color: #173b3f;
-    -fx-padding: 36 24 28 24;
+    -fx-padding: 14 24 14 24;
 }
 
 .brand {
     -fx-text-fill: #f9c95f;
     -fx-font-family: "Georgia";
-    -fx-font-size: 28px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-letter-spacing: 2px;
 }
 
-.subtitle, .guide, .conversation-hint {
+.subtitle {
     -fx-text-fill: #b9cfca;
-    -fx-font-size: 13px;
-    -fx-line-spacing: 4px;
+    -fx-font-size: 11px;
 }
 
 .task-count {
     -fx-text-fill: #173b3f;
     -fx-background-color: #f9c95f;
-    -fx-background-radius: 18px;
-    -fx-padding: 7 12 7 12;
+    -fx-background-radius: 16px;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
 
-.guide-title {
-    -fx-text-fill: #f9c95f;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-padding: 24 0 0 0;
+.chat-pane {
+    -fx-padding: 22 28 20 28;
 }
 
-.secondary-button, .send-button {
-    -fx-background-radius: 8px;
+.conversation-heading {
+    -fx-padding: 0 2 2 2;
+}
+
+.conversation-title {
+    -fx-text-fill: #173b3f;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+}
+
+.conversation-hint {
+    -fx-text-fill: #667973;
+    -fx-font-size: 12px;
+}
+
+.secondary-button,
+.send-button {
+    -fx-background-radius: 7px;
+    -fx-border-radius: 7px;
     -fx-cursor: hand;
     -fx-font-weight: bold;
 }
 
 .secondary-button {
     -fx-background-color: transparent;
-    -fx-border-color: #8fb4ad;
-    -fx-border-radius: 8px;
-    -fx-text-fill: #ecf4ee;
-    -fx-padding: 10 14 10 14;
+    -fx-border-color: #8da19b;
+    -fx-text-fill: #294d4e;
+    -fx-padding: 7 11 7 11;
 }
 
-.chat-pane {
-    -fx-padding: 34 42 28 42;
+.secondary-button:hover {
+    -fx-background-color: #e8ede8;
 }
 
-.conversation-title {
-    -fx-text-fill: #173b3f;
-    -fx-font-family: "Georgia";
-    -fx-font-size: 27px;
-    -fx-font-weight: bold;
+.command-guide {
+    -fx-text-fill: #294d4e;
 }
 
-.conversation-hint {
-    -fx-text-fill: #617a75;
+.command-guide > .title {
+    -fx-background-color: #e9eee9;
+    -fx-background-radius: 7px;
+    -fx-padding: 7 10 7 10;
+}
+
+.command-guide:expanded > .title {
+    -fx-background-radius: 7px 7px 0 0;
+}
+
+.command-guide > *.content {
+    -fx-background-color: #f1f3ef;
+    -fx-background-radius: 0 0 7px 7px;
+    -fx-border-color: transparent;
+    -fx-padding: 9 12 9 12;
+}
+
+.guide {
+    -fx-text-fill: #536762;
+    -fx-font-family: "Menlo", "Consolas", monospace;
+    -fx-font-size: 11px;
+    -fx-line-spacing: 3px;
 }
 
 .chat-scroll {
@@ -77,44 +107,105 @@
 }
 
 .conversation {
-    -fx-padding: 18 4 18 4;
+    -fx-padding: 8 4 10 2;
 }
 
 .message-row {
-    -fx-padding: 0 0 2 0;
+    -fx-padding: 0 2 2 2;
 }
 
 .message {
-    -fx-background-radius: 14px;
-    -fx-padding: 12 15 12 15;
-    -fx-font-size: 14px;
-    -fx-line-spacing: 3px;
-}
-
-.bot-message {
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #193a3e;
+    -fx-font-size: 13px;
+    -fx-line-spacing: 2px;
 }
 
 .user-message {
-    -fx-background-color: #d46d4b;
+    -fx-background-color: #c85f42;
+    -fx-background-radius: 14px 14px 3px 14px;
     -fx-text-fill: white;
+    -fx-padding: 9 13 9 13;
+}
+
+.response-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 3px 10px 10px 3px;
+    -fx-border-color: #5f8780 transparent transparent #5f8780;
+    -fx-border-width: 0 0 0 4px;
+    -fx-padding: 10 13 11 13;
+    -fx-effect: dropshadow(gaussian, rgba(23, 59, 63, 0.08), 8, 0.08, 0, 2);
+}
+
+.response-text {
+    -fx-text-fill: #213d3e;
+}
+
+.message-role {
+    -fx-text-fill: #49726b;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+}
+
+.error-message {
+    -fx-background-color: #fff4f1;
+    -fx-border-color: transparent transparent transparent #c4483e;
+}
+
+.error-message .message-role {
+    -fx-text-fill: #a72f2a;
+}
+
+.error-message .response-text {
+    -fx-text-fill: #71241f;
+}
+
+.warning-message {
+    -fx-background-color: #fff9e8;
+    -fx-border-color: transparent transparent transparent #d59722;
+}
+
+.warning-message .message-role {
+    -fx-text-fill: #8b5d0b;
 }
 
 .composer {
-    -fx-padding: 15 0 0 0;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10px;
+    -fx-padding: 7 7 7 10;
+    -fx-effect: dropshadow(gaussian, rgba(23, 59, 63, 0.12), 12, 0.08, 0, 3);
 }
 
 .text-field {
-    -fx-background-radius: 8px;
-    -fx-border-color: #b7c3bb;
-    -fx-border-radius: 8px;
-    -fx-padding: 11 13 11 13;
-    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 5 8 5;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: #89958f;
+}
+
+.text-field:focused {
+    -fx-background-color: transparent;
 }
 
 .send-button {
     -fx-background-color: #173b3f;
     -fx-text-fill: #ffffff;
-    -fx-padding: 11 21 11 21;
+    -fx-padding: 9 18 9 18;
+}
+
+.send-button:hover {
+    -fx-background-color: #245158;
+}
+
+.send-button:disabled {
+    -fx-opacity: 0.45;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 9px;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #bdc8c2;
+    -fx-background-radius: 6px;
 }

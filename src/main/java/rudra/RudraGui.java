@@ -10,9 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import rudra.command.Command;
@@ -30,11 +32,12 @@ public class RudraGui extends Application {
 
     private final ArrayList<Task> tasks = new ArrayList<>();
     private final ArrayList<String> pendingMessages = new ArrayList<>();
-    private final VBox conversation = new VBox(12);
+    private final VBox conversation = new VBox(10);
 
     private Ui ui;
     private Storage storage;
     private TextField commandField;
+    private Button sendButton;
     private Label taskCountLabel;
     private ScrollPane conversationScrollPane;
 
@@ -50,59 +53,59 @@ public class RudraGui extends Application {
 
         BorderPane root = new BorderPane();
         root.getStyleClass().add("app-shell");
-        root.setLeft(createSidebar());
+        root.setTop(createHeader());
         root.setCenter(createChatPane());
 
-        Scene scene = new Scene(root, 1050, 700);
+        Scene scene = new Scene(root, 800, 680);
         scene.getStylesheets().add(getClass().getResource("/rudra/ui/rudra.css").toExternalForm());
         stage.setTitle("Rudra | Task companion");
-        stage.setMinWidth(760);
-        stage.setMinHeight(560);
+        stage.setMinWidth(520);
+        stage.setMinHeight(480);
+        stage.setResizable(true);
         stage.setScene(scene);
 
+        addMessage(createWelcomeMessage(), MessageType.BOT);
         loadTasks();
-        showPendingReply();
-        addMessage(createWelcomeMessage(), "bot-message");
         stage.show();
         this.commandField.requestFocus();
     }
 
-    private VBox createSidebar() {
+    private HBox createHeader() {
         Label brand = new Label("RUDRA");
         brand.getStyleClass().add("brand");
-        Label subtitle = new Label("A calmer way to plan");
+        Label subtitle = new Label("Task companion");
         subtitle.getStyleClass().add("subtitle");
+        VBox identity = new VBox(0, brand, subtitle);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
         this.taskCountLabel = new Label();
         this.taskCountLabel.getStyleClass().add("task-count");
 
-        Label guideTitle = new Label("COMMAND GUIDE");
-        guideTitle.getStyleClass().add("guide-title");
-        Label guide = new Label("todo buy milk\n"
-                + "deadline submit report /by 2026-09-10\n"
-                + "event team sync /from 2026-09-08 1400 /to 2026-09-08 1500\n"
-                + "list, find KEYWORD, sort deadline, mark NUMBER");
-        guide.setWrapText(true);
-        guide.getStyleClass().add("guide");
-
-        Button showTasksButton = new Button("Show my tasks");
-        showTasksButton.getStyleClass().add("secondary-button");
-        showTasksButton.setMaxWidth(Double.MAX_VALUE);
-        showTasksButton.setOnAction(event -> submitCommand("list"));
-
-        VBox sidebar = new VBox(14, brand, subtitle, this.taskCountLabel, guideTitle, guide, showTasksButton);
-        sidebar.getStyleClass().add("sidebar");
-        sidebar.setPrefWidth(270);
-        return sidebar;
+        HBox header = new HBox(16, identity, spacer, this.taskCountLabel);
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.getStyleClass().add("app-header");
+        return header;
     }
 
     private VBox createChatPane() {
-        Label title = new Label("Your task conversation");
+        Label title = new Label("Your tasks, one message at a time");
         title.getStyleClass().add("conversation-title");
-        Label hint = new Label("Use natural task commands. Rudra will save changes automatically.");
+        Label hint = new Label("Changes are saved automatically.");
         hint.getStyleClass().add("conversation-hint");
 
-        VBox heading = new VBox(3, title, hint);
+        VBox headingText = new VBox(2, title, hint);
+        Region headingSpacer = new Region();
+        HBox.setHgrow(headingSpacer, Priority.ALWAYS);
+        Button showTasksButton = new Button("View tasks");
+        showTasksButton.getStyleClass().add("secondary-button");
+        showTasksButton.setOnAction(event -> submitCommand("list"));
+        HBox heading = new HBox(12, headingText, headingSpacer, showTasksButton);
+        heading.setAlignment(Pos.CENTER_LEFT);
         heading.getStyleClass().add("conversation-heading");
+
+        TitledPane commandGuide = createCommandGuide();
 
         this.conversation.getStyleClass().add("conversation");
         this.conversationScrollPane = new ScrollPane(this.conversation);
@@ -112,19 +115,38 @@ public class RudraGui extends Application {
         VBox.setVgrow(this.conversationScrollPane, Priority.ALWAYS);
 
         this.commandField = new TextField();
-        this.commandField.setPromptText("Try: todo read chapter 4");
+        this.commandField.setPromptText("Enter a command, e.g. todo read chapter 4");
+        this.commandField.setAccessibleHelp("Enter a Rudra command");
         this.commandField.setOnAction(event -> submitCommand(this.commandField.getText()));
         HBox.setHgrow(this.commandField, Priority.ALWAYS);
 
-        Button sendButton = new Button("Send");
-        sendButton.getStyleClass().add("send-button");
-        sendButton.setOnAction(event -> submitCommand(this.commandField.getText()));
-        HBox composer = new HBox(10, this.commandField, sendButton);
+        this.sendButton = new Button("Send");
+        this.sendButton.getStyleClass().add("send-button");
+        this.sendButton.setDisable(true);
+        this.commandField.textProperty().addListener((observable, oldValue, newValue) ->
+                this.sendButton.setDisable(newValue.trim().isEmpty()));
+        this.sendButton.setOnAction(event -> submitCommand(this.commandField.getText()));
+        HBox composer = new HBox(10, this.commandField, this.sendButton);
+        composer.setAlignment(Pos.CENTER);
         composer.getStyleClass().add("composer");
 
-        VBox chatPane = new VBox(16, heading, this.conversationScrollPane, composer);
+        VBox chatPane = new VBox(10, heading, commandGuide, this.conversationScrollPane, composer);
         chatPane.getStyleClass().add("chat-pane");
         return chatPane;
+    }
+
+    private TitledPane createCommandGuide() {
+        Label guide = new Label("todo DESCRIPTION  •  deadline DESCRIPTION /by YYYY-MM-DD [HHmm]\n"
+                + "event DESCRIPTION /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm\n"
+                + "list  •  find KEYWORD  •  sort deadline  •  mark/unmark/delete NUMBER  •  bye");
+        guide.setWrapText(true);
+        guide.getStyleClass().add("guide");
+
+        TitledPane commandGuide = new TitledPane("Command help", guide);
+        commandGuide.setExpanded(false);
+        commandGuide.setAnimated(false);
+        commandGuide.getStyleClass().add("command-guide");
+        return commandGuide;
     }
 
     private void loadTasks() {
@@ -133,9 +155,11 @@ public class RudraGui extends Application {
             this.tasks.addAll(loadResult.getTasks());
             if (loadResult.getSkippedTaskCount() > 0) {
                 this.ui.showCorruptedTaskWarning(loadResult.getSkippedTaskCount());
+                showPendingReply(MessageType.WARNING);
             }
         } catch (RudraException e) {
             this.ui.showLoadingError(e.getMessage());
+            showPendingReply(MessageType.ERROR);
         }
         updateTaskCount();
     }
@@ -146,42 +170,57 @@ public class RudraGui extends Application {
             return;
         }
 
-        addMessage(command, "user-message");
+        addMessage(command, MessageType.USER);
         this.commandField.clear();
         this.pendingMessages.clear();
 
         try {
             Command parsedCommand = Parser.parse(command);
             parsedCommand.execute(this.tasks, this.ui, this.storage);
+            showPendingReply(MessageType.BOT);
             if (parsedCommand.isExit()) {
                 this.commandField.setDisable(true);
+                this.sendButton.setDisable(true);
             }
         } catch (RudraException e) {
             this.ui.showError(e.getMessage());
+            showPendingReply(MessageType.ERROR);
         }
 
         updateTaskCount();
-        showPendingReply();
     }
 
-    private void showPendingReply() {
+    private void showPendingReply(MessageType messageType) {
         if (this.pendingMessages.isEmpty()) {
             return;
         }
-        addMessage(String.join(System.lineSeparator(), this.pendingMessages), "bot-message");
+        addMessage(String.join(System.lineSeparator(), this.pendingMessages), messageType);
         this.pendingMessages.clear();
     }
 
-    private void addMessage(String text, String styleClass) {
-        Label message = new Label(text);
-        message.setWrapText(true);
-        message.setMaxWidth(620);
-        message.getStyleClass().add("message");
-        message.getStyleClass().add(styleClass);
-
-        HBox messageRow = new HBox(message);
+    private void addMessage(String text, MessageType messageType) {
+        HBox messageRow = new HBox();
         messageRow.getStyleClass().add("message-row");
-        messageRow.setAlignment("user-message".equals(styleClass) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
+
+        if (messageType == MessageType.USER) {
+            Label message = createMessageLabel(text, "user-message");
+            message.maxWidthProperty().bind(this.conversationScrollPane.widthProperty().multiply(0.72));
+            messageRow.getChildren().add(message);
+            messageRow.setAlignment(Pos.CENTER_RIGHT);
+        } else {
+            String styleClass = messageType == MessageType.ERROR ? "error-message"
+                    : messageType == MessageType.WARNING ? "warning-message" : "bot-message";
+            Label role = new Label(messageType.getHeading());
+            role.getStyleClass().add("message-role");
+            Label message = createMessageLabel(text, "response-text");
+            VBox responseCard = new VBox(5, role, message);
+            responseCard.getStyleClass().addAll("response-card", styleClass);
+            responseCard.maxWidthProperty().bind(this.conversationScrollPane.widthProperty().subtract(34));
+            responseCard.prefWidthProperty().bind(this.conversationScrollPane.widthProperty().subtract(34));
+            messageRow.getChildren().add(responseCard);
+            messageRow.setAlignment(Pos.CENTER_LEFT);
+        }
+
         this.conversation.getChildren().add(messageRow);
         Platform.runLater(() -> {
             this.conversationScrollPane.applyCss();
@@ -190,25 +229,37 @@ public class RudraGui extends Application {
         });
     }
 
+    private Label createMessageLabel(String text, String styleClass) {
+        Label message = new Label(text);
+        message.setWrapText(true);
+        message.setMaxWidth(Double.MAX_VALUE);
+        message.getStyleClass().addAll("message", styleClass);
+        return message;
+    }
+
     private String createWelcomeMessage() {
-        return "Welcome to Rudra!\n\n"
-                + "How to use this chat\n"
-                + "Type a command below, then press Enter or select Send. Your changes are saved automatically.\n\n"
-                + "Commands\n"
-                + "todo DESCRIPTION\n"
-                + "deadline DESCRIPTION /by YYYY-MM-DD [HHmm]\n"
-                + "event DESCRIPTION /from YYYY-MM-DD HHmm /to YYYY-MM-DD HHmm\n"
-                + "list\n"
-                + "find KEYWORD\n"
-                + "sort deadline\n"
-                + "mark NUMBER\n"
-                + "unmark NUMBER\n"
-                + "delete NUMBER\n"
-                + "bye\n\n"
-                + "Example: deadline submit report /by 2026-09-10";
+        return "Welcome! Tell me what you need to remember, or open Command help for the full list.\n"
+                + "Try: deadline submit report /by 2026-09-10";
     }
 
     private void updateTaskCount() {
-        this.taskCountLabel.setText(this.tasks.size() + (this.tasks.size() == 1 ? " task" : " tasks") + " in view");
+        this.taskCountLabel.setText(this.tasks.size() + (this.tasks.size() == 1 ? " task" : " tasks"));
+    }
+
+    private enum MessageType {
+        BOT("RUDRA"),
+        ERROR("COMMAND ERROR"),
+        USER("YOU"),
+        WARNING("NOTICE");
+
+        private final String heading;
+
+        MessageType(String heading) {
+            this.heading = heading;
+        }
+
+        private String getHeading() {
+            return this.heading;
+        }
     }
 }
